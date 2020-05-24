@@ -1,8 +1,8 @@
 // packages
-import React, { ComponentType } from 'react';
+import React, { ComponentType, PropsWithChildren } from 'react';
 
 export default function withDefaultProps<P>(defaultProps: P) {
-  return (Component: ComponentType<P>) => (props: Partial<P>) => (
-    <Component {...defaultProps} {...props} />
-  );
+  return (Component: ComponentType<P>) => (
+    props: PropsWithChildren<Partial<P>>
+  ) => <Component {...defaultProps} {...props} />;
 }
