@@ -1,3 +1,19 @@
-page {
-  background: #282c34;
+.demo-block__title {
+  display: inline-block;
+  padding: 28px 14px 14px;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 16px;
+  color: rgba(69, 90, 100, 0.6);
+}
+
+.demo-block__title:first-child {
+  padding-top: 16px;
+}
+
+.demo-loading {
+  .van-loading {
+    margin-left: 12px;
+    margin-right: 12px;
+  }
 }
