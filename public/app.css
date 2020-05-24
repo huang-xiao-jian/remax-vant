@@ -5,15 +5,41 @@
   font-weight: normal;
   line-height: 16px;
   color: rgba(69, 90, 100, 0.6);
+
+  &:first-child {
+    padding-top: 16px;
+  }
 }
 
-.demo-block__title:first-child {
-  padding-top: 16px;
+.demo-block__content {
+  padding-left: 14px;
 }
 
-.demo-loading {
+.demo-block {
+  /* Loading Component*/
   .van-loading {
     margin-left: 12px;
     margin-right: 12px;
+  }
+  /* Tag Component */
+  .van-tag + .van-tag {
+    margin-left: 10px;
+  }
+  /* Layout content*/
+  .van-col {
+    margin-bottom: 10px;
+    color: #fff;
+    font-size: 13px;
+    line-height: 30px;
+    text-align: center;
+    background-clip: content-box;
+
+    &:nth-child(even) {
+      background-color: #66c6f2;
+    }
+
+    &:nth-child(odd) {
+      background-color: #39a9ed;
+    }
   }
 }

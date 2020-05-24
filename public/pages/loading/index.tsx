@@ -7,7 +7,7 @@ import Loading from '../../../packages/Loading';
 
 export default () => {
   return (
-    <View>
+    <View className="demo-block">
       <Text className="demo-block__title">加载类型</Text>
       <View className="demo-loading">
         <Loading />
