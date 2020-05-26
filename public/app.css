@@ -16,6 +16,19 @@
 }
 
 .demo-block {
+  width: 100%;
+
+  /* Icon Component */
+  .van-icon {
+    display: inline-block;
+    margin-left: 8px;
+    color: #323233;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
   /* Loading Component*/
   .van-loading {
     margin-left: 12px;
