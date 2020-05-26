@@ -1,9 +1,15 @@
 import { AppConfig } from 'remax/wechat';
 
 const config: AppConfig = {
-  pages: ['pages/index/index'],
+  pages: [
+    'pages/slider/index',
+    'pages/layout/index',
+    'pages/tag/index',
+    'pages/loading/index',
+    'pages/index/index',
+  ],
   window: {
-    navigationBarTitleText: 'Remax Wechat Template With TypeScript',
+    navigationBarTitleText: 'Remax Vant',
     navigationBarBackgroundColor: '#282c34',
   },
 };
