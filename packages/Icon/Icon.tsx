@@ -11,7 +11,7 @@ interface IconProps {
   name: string;
   dot?: boolean;
   color?: string;
-  size: string;
+  size?: string;
   onClick?: (event: any) => void;
   // info#info
   message?: string;

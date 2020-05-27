@@ -1,5 +1,5 @@
 // packages
-import React, { FunctionComponent, Fragment } from 'react';
+import React, { FunctionComponent, Fragment, CSSProperties } from 'react';
 import clsx from 'clsx';
 import { View } from 'remax/wechat';
 // internal
@@ -9,6 +9,8 @@ import withDefaultProps from '../tools/with-default-props';
 interface LoadingProps {
   vertical: boolean;
   type: 'spinner' | 'circular';
+  color?: string;
+  size?: string;
   // 容器类名，用以覆盖内部
   className?: string;
   // loading 提示信息
@@ -29,7 +31,7 @@ const Dots: FunctionComponent = () => (
 );
 
 const Loading: FunctionComponent<LoadingProps> = (props) => {
-  const { vertical, className, type, message } = props;
+  const { vertical, className, type, color, message, size } = props;
   const classnames = {
     container: clsx('van-loading', className, {
       'van-loading--vertical': vertical,
@@ -39,9 +41,16 @@ const Loading: FunctionComponent<LoadingProps> = (props) => {
       'van-loading__spinner--circular': type === 'circular',
     }),
   };
+  const stylesheets: Record<'container', CSSProperties> = {
+    container: {
+      color,
+      width: size,
+      height: size,
+    },
+  };
 
   return (
-    <View className={classnames.container}>
+    <View className={classnames.container} style={stylesheets.container}>
       <View className={classnames.spinner}>
         {type === 'spinner' && <Dots />}
       </View>
