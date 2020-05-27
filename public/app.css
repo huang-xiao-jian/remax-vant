@@ -1,3 +1,7 @@
+.demo-block {
+  display: block;
+}
+
 .demo-block__title {
   display: inline-block;
   padding: 28px 14px 14px;
@@ -16,6 +20,13 @@
 }
 
 .demo-block {
+.demo-block--button {
+  .van-button {
+    margin-right: 8px;
+    margin-bottom: 14px;
+  }
+}
+
   width: 100%;
 
   /* Icon Component */
