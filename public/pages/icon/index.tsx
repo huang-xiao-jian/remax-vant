@@ -7,7 +7,7 @@ import Icon from '../../../packages/Icon';
 
 export default () => {
   return (
-    <View className="demo-block">
+    <View className="demo-block demo-block--icon">
       <Text className="demo-block__title">基础用法</Text>
       <View className="demo-block__content">
         <Icon name="close" size="32px" />

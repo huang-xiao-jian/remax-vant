@@ -8,7 +8,7 @@ import Col from '../../../packages/Col';
 
 export default () => {
   return (
-    <View className="demo-block">
+    <View className="demo-block demo-block--layout">
       <Text className="demo-block__title">基础用法</Text>
       <View className="demo-block__content">
         <Row>

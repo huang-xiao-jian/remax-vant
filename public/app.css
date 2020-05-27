@@ -1,5 +1,5 @@
 .demo-block {
-  display: block;
+  width: 100%;
 }
 
 .demo-block__title {
@@ -19,7 +19,6 @@
   padding-left: 14px;
 }
 
-.demo-block {
 .demo-block--button {
   .van-button {
     margin-right: 8px;
@@ -27,8 +26,7 @@
   }
 }
 
-  width: 100%;
-
+.demo-block--icon {
   /* Icon Component */
   .van-icon {
     display: inline-block;
@@ -39,16 +37,24 @@
       margin-left: 0;
     }
   }
+}
 
+.demo-block--loading {
   /* Loading Component*/
   .van-loading {
     margin-left: 12px;
     margin-right: 12px;
   }
+}
+
+.demo-block--tag {
   /* Tag Component */
   .van-tag + .van-tag {
     margin-left: 10px;
   }
+}
+
+.demo-block--layout {
   /* Layout content*/
   .van-col {
     margin-bottom: 10px;
