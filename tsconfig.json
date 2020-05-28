@@ -6,12 +6,12 @@
     "strict": true,
     "esModuleInterop": true,
     "jsx": "preserve",
-    "rootDir": "src",
+    "rootDir": "packages",
     "baseUrl": "./",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./packages/*"]
     },
     "lib": ["DOM", "ES2015"]
   },
-  "include": ["typings/**/*"]
+  "include": ["typings/**/*", "packages/**/*"]
 }

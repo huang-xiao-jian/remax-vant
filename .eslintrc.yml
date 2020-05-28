@@ -1,0 +1,24 @@
+# parser: '@typescript-eslint/parser'
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+  ecmaVersion: 11
+  sourceType: module
+  project: './tsconfig.json'
+env:
+  browser: true
+  es6: true
+extends:
+  - 'plugin:@typescript-eslint/recommended'
+  - 'plugin:@typescript-eslint/eslint-recommended'
+  - 'airbnb-typescript'
+  - 'airbnb/hooks'
+  - 'prettier'
+  - 'prettier/react'
+  - 'prettier/@typescript-eslint'
+globals:
+  Atomics: readonly
+  SharedArrayBuffer: readonly
+rules:
+  'react/prop-types': off
+  '@typescript-eslint/camelcase': off
