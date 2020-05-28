@@ -121,11 +121,11 @@ const Button: FunctionComponent<ButtonProps> = (props) => {
     children,
   } = props;
   const unclickable = disabled || loading;
+  /* prettier-ignore */
+  /* eslint-disable no-nested-ternary */
   const loadingColor = plain
-    ? color ?? '#c9c9c9'
-    : type === 'default'
-    ? '#c9c9c9'
-    : '#ffffff';
+    ? (color ?? '#c9c9c9')
+    : (type === 'default' ? '#c9c9c9': '#ffffff');
   const loadingHolder =
     loader &&
     cloneElement(loader, {
