@@ -1350,6 +1350,18 @@
   resolved "https://registry.npm.taobao.org/@types/json-schema/download/@types/json-schema-7.0.4.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fjson-schema%2Fdownload%2F%40types%2Fjson-schema-7.0.4.tgz#38fd73ddfd9b55abb1e1b2ed578cb55bd7b7d339"
   integrity sha1-OP1z3f2bVaux4bLtV4y1W9e30zk=
 
+"@types/lodash.pickby@^4.6.6":
+  version "4.6.6"
+  resolved "https://registry.npm.taobao.org/@types/lodash.pickby/download/@types/lodash.pickby-4.6.6.tgz#3dc39c2b38432f7a0c5e5627b0d5c0e3878b4f35"
+  integrity sha1-PcOcKzhDL3oMXlYnsNXA44eLTzU=
+  dependencies:
+    "@types/lodash" "*"
+
+"@types/lodash@*":
+  version "4.14.153"
+  resolved "https://registry.npm.taobao.org/@types/lodash/download/@types/lodash-4.14.153.tgz#5cb7dded0649f1df97938ac5ffc4f134e9e9df98"
+  integrity sha1-XLfd7QZJ8d+Xk4rF/8TxNOnp35g=
+
 "@types/lodash@4.14.150":
   version "4.14.150"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.150.tgz#649fe44684c3f1fcb6164d943c5a61977e8cf0bd"
@@ -5787,6 +5799,11 @@ lodash.map@^4.5.1:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/lodash.map/-/lodash.map-4.6.0.tgz#771ec7839e3473d9c4cde28b19394c3562f4f6d3"
   integrity sha1-dx7Hg540c9nEzeKLGTlMNWL09tM=
+
+lodash.pickby@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.npm.taobao.org/lodash.pickby/download/lodash.pickby-4.6.0.tgz#7dea21d8c18d7703a27c704c15d3b84a67e33aff"
+  integrity sha1-feoh2MGNdwOifHBMFdO4SmfjOv8=
 
 lodash.template@^4.0.2, lodash.template@^4.5.0:
   version "4.5.0"

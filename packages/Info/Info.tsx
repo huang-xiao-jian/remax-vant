@@ -8,9 +8,8 @@ import './Info.css';
 interface InfoProps {
   // 移植属性
   dot: boolean;
-  // 改造新增属性
-  // info#info
-  message?: string;
+  info?: string;
+  // 调整属性
   // info#customStyle
   style?: CSSProperties;
   // 容器类名，用以覆盖内部
@@ -18,9 +17,9 @@ interface InfoProps {
 }
 
 const Info: FunctionComponent<InfoProps> = (props) => {
-  const { className, dot, message, style } = props;
+  const { className, dot, info, style } = props;
 
-  if (message || dot) {
+  if (info || dot) {
     const classnames = {
       container: clsx(className, 'van-info', {
         'van-info--dot': dot,
@@ -29,7 +28,7 @@ const Info: FunctionComponent<InfoProps> = (props) => {
 
     return (
       <View style={style} className={classnames.container}>
-        {dot ? '' : message}
+        {dot ? '' : info}
       </View>
     );
   }

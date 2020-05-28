@@ -4,28 +4,42 @@ import clsx from 'clsx';
 import { View, Image } from 'remax/wechat';
 // internal
 import Info from '../Info';
+import withDefaultProps from '../tools/with-default-props-advance';
+import pickStyle from '../tools/pick-style';
 import './Icon.css';
 
-interface IconProps {
-  // 移植属性
+// 默认值填充属性
+interface NeutralIconProps {
+  dot: boolean;
+  color: string;
+  size: string;
+}
+// 不包含默认值属性
+interface ExogenousIconProps {
   name: string;
-  dot?: boolean;
-  color?: string;
-  size?: string;
-  onClick?: (event: any) => void;
   // info#info
-  message?: string;
+  info?: string;
   // info#customStyle
   style?: CSSProperties;
   // 容器类名，用以覆盖内部
   className?: string;
+  // 事件绑定
+  onClick?: (event: any) => void;
 }
 
+type IconProps = NeutralIconProps & ExogenousIconProps;
+
+// scope
+const DefaultIconProps: NeutralIconProps = {
+  dot: false,
+  color: 'inherit',
+  size: 'inherit',
+};
+
 const Icon: FunctionComponent<IconProps> = (props) => {
-  const { className, dot, message, style, name, color, size, onClick } = props;
+  const { className, dot, info, style, name, color, size, onClick } = props;
 
   const external = name.indexOf('/') !== -1;
-  // UI property
   const classnames = {
     container: clsx(className, 'van-icon', {
       'van-icon--image': external,
@@ -33,16 +47,12 @@ const Icon: FunctionComponent<IconProps> = (props) => {
     }),
   };
   const stylesheets: Record<'container', CSSProperties> = {
-    container: style
-      ? {
-          ...style,
-          color,
-          fontSize: size,
-        }
-      : {
-          color,
-          fontSize: size,
-        },
+    // void style value will be ignored
+    // eslint-disable-next-line prefer-object-spread
+    container: Object.assign({}, style, {
+      color,
+      fontSize: size,
+    }),
   };
   // inside image
   const Insider = external && (
@@ -51,14 +61,16 @@ const Icon: FunctionComponent<IconProps> = (props) => {
 
   return (
     <View
-      style={stylesheets.container}
+      style={pickStyle(stylesheets.container)}
       className={classnames.container}
       onClick={onClick}
     >
-      <Info className="van-icon__info" dot={dot} message={message} />
+      <Info className="van-icon__info" dot={dot} info={info} />
       {Insider}
     </View>
   );
 };
 
-export default Icon;
+export default withDefaultProps<ExogenousIconProps, NeutralIconProps>(
+  DefaultIconProps
+)(Icon);
