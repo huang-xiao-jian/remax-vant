@@ -9,16 +9,16 @@ export default () => {
   return (
     <View className="demo-block demo-block--loading">
       <Text className="demo-block__title">加载类型</Text>
-      <View className="demo-loading">
+      <View className="demo-block__content">
         <Loading />
         <Loading type="spinner" />
       </View>
       <Text className="demo-block__title">加载文案水平</Text>
-      <View className="demo-loading">
+      <View className="demo-block__content">
         <Loading message="加载中..." />
       </View>
       <Text className="demo-block__title">加载文案垂直分布</Text>
-      <View className="demo-loading">
+      <View className="demo-block__content">
         <Loading vertical message="加载中..." />
         <Loading type="spinner" vertical message="加载中..." />
       </View>
