@@ -39,6 +39,13 @@
   }
 }
 
+.demo-block--image {
+  .van-image {
+    margin-right: 12px;
+    margin-bottom: 16px;
+  }
+}
+
 .demo-block--loading {
   /* Loading Component*/
   .van-loading {
