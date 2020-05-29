@@ -81,3 +81,4 @@ typings/
 # Production
 dist
 build
+bin
