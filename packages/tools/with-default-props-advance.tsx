@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /**
  * @description - wrap inner component properties with more precision
  */
