@@ -61,6 +61,12 @@
   }
 }
 
+.demo-block--progress {
+  .van-progress + .van-progress {
+    margin-top: 24px;
+  }
+}
+
 .demo-block--layout {
   /* Layout content*/
   .van-col {
