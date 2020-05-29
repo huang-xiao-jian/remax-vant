@@ -1,0 +1,57 @@
+.van-divider {
+  display: flex;
+  align-items: center;
+  border-style: solid;
+  border-width: 0;
+  margin: 16px 0;
+  margin: var(--divider-margin, 16px 0);
+  color: #969799;
+  color: var(--divider-text-color, #969799);
+  font-size: 14px;
+  font-size: var(--divider-font-size, 14px);
+  line-height: 24px;
+  line-height: var(--divider-line-height, 24px);
+  border-color: #ebedf0;
+  border-color: var(--divider-border-color, #ebedf0);
+}
+.van-divider::before,
+.van-divider::after {
+  display: block;
+  flex: 1;
+  box-sizing: border-box;
+  height: 1px;
+  border-color: inherit;
+  border-style: inherit;
+  border-width: 1px 0 0;
+}
+.van-divider::before {
+  content: '';
+}
+.van-divider--hairline::before,
+.van-divider--hairline::after {
+  transform: scaleY(0.5);
+}
+.van-divider--dashed {
+  border-style: dashed;
+}
+.van-divider--center::before,
+.van-divider--left::before,
+.van-divider--right::before {
+  margin-right: 16px;
+  margin-right: var(--divider-content-padding, 16px);
+}
+.van-divider--center::after,
+.van-divider--left::after,
+.van-divider--right::after {
+  content: '';
+  margin-left: 16px;
+  margin-left: var(--divider-content-padding, 16px);
+}
+.van-divider--left::before {
+  max-width: 10%;
+  max-width: var(--divider-content-left-width, 10%);
+}
+.van-divider--right::after {
+  max-width: 10%;
+  max-width: var(--divider-content-right-width, 10%);
+}

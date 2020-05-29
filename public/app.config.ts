@@ -2,6 +2,7 @@ import { AppConfig } from 'remax/wechat';
 
 const config: AppConfig = {
   pages: [
+    'pages/divider/index',
     'pages/grid/index',
     'pages/image/index',
     'pages/cell/index',
