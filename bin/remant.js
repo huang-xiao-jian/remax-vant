@@ -2,6 +2,9 @@
 
 const path = require('path');
 const fs = require('fs-extra');
+const chalk = require('chalk');
+const symbols = require('log-symbols');
+const camelCase = require('camelcase');
 const { pascalCase } = require('pascal-case');
 const { program } = require('commander');
 
@@ -69,25 +72,34 @@ program
     const name = pascalCase(package);
     const files = [
       {
-        filename: path.resolve(__dirname, '../packages', name, 'index.ts'),
+        filename: path.resolve(__dirname, `../packages/${name}/index.ts`),
         content: renderIndex(name),
       },
       {
-        filename: path.resolve(__dirname, '../packages', name, `${name}.tsx`),
+        filename: path.resolve(__dirname, `../packages/${name}/${name}.tsx`),
         content: renderComponent(name),
       },
       {
-        filename: path.resolve(__dirname, '../packages', name, `${name}.css`),
+        filename: path.resolve(__dirname, `../packages/${name}/${name}.css`),
         content: '',
       },
       {
-        filename: path.resolve(__dirname, '../public', package, `index.tsx`),
+        filename: path.resolve(
+          __dirname,
+          `../public/pages/${camelCase(package)}/index.tsx`
+        ),
         content: renderPage(name),
       },
     ];
 
     files.forEach((item) => {
       fs.ensureFile(item.filename).then(() => {
+        console.log(
+          ' ',
+          symbols.success,
+          chalk.cyan(path.relative(process.cwd(), item.filename))
+        );
+
         fs.writeFileSync(item.filename, item.content);
       });
     });
