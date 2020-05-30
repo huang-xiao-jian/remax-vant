@@ -67,6 +67,20 @@
   }
 }
 
+.demo-block--panel {
+  .van-panel__content {
+    padding: 20px;
+  }
+
+  .van-panel__footer {
+    text-align: right;
+  }
+
+  .van-button + .van-button {
+    margin-left: 10px;
+  }
+}
+
 .demo-block--layout {
   /* Layout content*/
   .van-col {
