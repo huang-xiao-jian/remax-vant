@@ -67,8 +67,9 @@ export default () => {
 program
   .version('0.1.0')
   .command('create <package>')
+  .option('-i, --ignore-page', 'create component without page')
   .description('setup package development grass')
-  .action((package) => {
+  .action((package, option) => {
     const name = pascalCase(package);
     const files = [
       {
@@ -83,14 +84,18 @@ program
         filename: path.resolve(__dirname, `../packages/${name}/${name}.css`),
         content: '',
       },
-      {
+    ];
+
+    // several component without page preview
+    if (!option.ignorePage) {
+      files.push({
         filename: path.resolve(
           __dirname,
           `../public/pages/${camelCase(package)}/index.tsx`
         ),
         content: renderPage(name),
-      },
-    ];
+      });
+    }
 
     files.forEach((item) => {
       fs.ensureFile(item.filename).then(() => {

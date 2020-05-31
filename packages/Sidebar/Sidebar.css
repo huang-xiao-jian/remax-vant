@@ -1,0 +1,4 @@
+.van-sidebar {
+  width: 85px;
+  width: var(--sidebar-width, 85px);
+}
