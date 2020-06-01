@@ -91,7 +91,7 @@ program
       files.push({
         filename: path.resolve(
           __dirname,
-          `../public/pages/${camelCase(package)}/index.tsx`
+          `../public/pages/${package}/index.tsx`
         ),
         content: renderPage(name),
       });
