@@ -7,7 +7,7 @@ import './Info.css';
 
 interface InfoProps {
   // 移植属性
-  dot: boolean;
+  dot?: boolean;
   info?: string;
   // 调整属性
   // info#customStyle
