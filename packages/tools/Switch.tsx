@@ -11,6 +11,15 @@ interface CaseProps {
   default?: boolean;
 }
 
+interface SelectProps {
+  in?: boolean;
+}
+
+// notice here, react element children required
+export const Select: FunctionComponent<SelectProps> = (props) => {
+  return props.in ? (props.children as ReactElement) : null;
+};
+
 export const Case: FunctionComponent<CaseProps> = (props) =>
   (props.children as ReactElement) || null;
 
