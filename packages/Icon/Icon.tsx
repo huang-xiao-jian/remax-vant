@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { View, Image } from 'remax/wechat';
 // internal
 import Info from '../Info';
+import { Select } from '../tools/Switch';
 import withDefaultProps from '../tools/with-default-props-advance';
 import pickStyle from '../tools/pick-style';
 import './Icon.css';
@@ -26,7 +27,6 @@ interface ExogenousIconProps {
   // 事件绑定
   onClick?: (event: any) => void;
 }
-
 type IconProps = NeutralIconProps & ExogenousIconProps;
 
 // scope
@@ -36,9 +36,13 @@ const DefaultIconProps: NeutralIconProps = {
   size: 'inherit',
 };
 
+// TODO - re-implement icon example page to be consistent with official page
+
+// Changes:
+//  1. remove class prefix;
+//  2. drop inline style value number support;
 const Icon: FunctionComponent<IconProps> = (props) => {
   const { className, dot, info, style, name, color, size, onClick } = props;
-
   const external = name.indexOf('/') !== -1;
   const classnames = {
     container: clsx(className, 'van-icon', {
@@ -46,27 +50,27 @@ const Icon: FunctionComponent<IconProps> = (props) => {
       [`van-icon-${name}`]: !external,
     }),
   };
-  const stylesheets: Record<'container', CSSProperties> = {
-    // void style value will be ignored
+  const stylesheet: CSSProperties = pickStyle(
+    // shortcut method, use assign method resolve undefined style property
     // eslint-disable-next-line prefer-object-spread
-    container: Object.assign({}, style, {
+    Object.assign({}, style, {
       color,
       fontSize: size,
-    }),
-  };
-  // inside image
-  const Insider = external && (
-    <Image mode="aspectFit" className="van-icon__image" src={name} />
+    })
   );
+  const visibility = {
+    info: info !== null || dot,
+    image: external,
+  };
 
   return (
-    <View
-      style={pickStyle(stylesheets.container)}
-      className={classnames.container}
-      onClick={onClick}
-    >
-      <Info className="van-icon__info" dot={dot} info={info} />
-      {Insider}
+    <View style={stylesheet} className={classnames.container} onClick={onClick}>
+      <Select in={visibility.info}>
+        <Info className="van-icon__info" dot={dot} info={info} />
+      </Select>
+      <Select in={visibility.image}>
+        <Image mode="aspectFit" className="van-icon__image" src={name} />
+      </Select>
     </View>
   );
 };
