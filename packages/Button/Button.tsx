@@ -18,6 +18,9 @@ import './Button.css';
 
 // TODO - 遗漏 id, business-id, dataset 三属性，功能位置，待确认
 
+export type ButtonType = 'default' | 'primary' | 'info' | 'warning' | 'danger';
+export type ButtonSize = 'normal' | 'large' | 'small' | 'mini';
+
 // 默认值填充属性
 interface NeutralButtonProps {
   // 移植属性
@@ -28,8 +31,8 @@ interface NeutralButtonProps {
   loading: boolean;
   hairline: boolean;
   disabled: boolean;
-  type: 'default' | 'primary' | 'info' | 'warning' | 'danger';
-  size: 'normal' | 'large' | 'small' | 'mini';
+  type: ButtonType;
+  size: ButtonSize;
   // 直接传递 loading 组件，不再进行属性透传
   loader: ReactElement;
 }
@@ -45,6 +48,8 @@ interface ExogenousButtonProps {
   hoverClassName?: string;
   // 容器类名，用以覆盖内部
   className?: string;
+  // 事件绑定
+  onClick?: (event: any) => void;
 }
 
 type HostButtonProps = Pick<
@@ -119,6 +124,7 @@ const Button: FunctionComponent<ButtonProps> = (props) => {
     loader,
     loadingText,
     children,
+    onClick,
   } = props;
   const unclickable = disabled || loading;
   /* prettier-ignore */
@@ -172,6 +178,7 @@ const Button: FunctionComponent<ButtonProps> = (props) => {
       style={stylesheets.container}
       className={classnames.container}
       hoverClassName={classnames.hover}
+      onClick={onClick}
     >
       {loading && loadingHolder}
       {loading && loadingTextHolder}
