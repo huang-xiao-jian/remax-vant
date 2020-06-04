@@ -13,14 +13,21 @@ export default () => {
         <Loading />
         <Loading type="spinner" />
       </View>
-      <Text className="demo-block__title">加载文案水平</Text>
+      <Text className="demo-block__title">自定义颜色</Text>
       <View className="demo-block__content">
-        <Loading message="加载中..." />
+        <Loading color="#1989fa" />
+        <Loading type="spinner" color="#1989fa" />
       </View>
-      <Text className="demo-block__title">加载文案垂直分布</Text>
+
+      <Text className="demo-block__title">加载文案</Text>
       <View className="demo-block__content">
-        <Loading vertical message="加载中..." />
-        <Loading type="spinner" vertical message="加载中..." />
+        <Loading size="24px">加载中...</Loading>
+      </View>
+      <Text className="demo-block__title">垂直排列</Text>
+      <View className="demo-block__content">
+        <Loading size="24px" vertical>
+          加载中...
+        </Loading>
       </View>
     </View>
   );

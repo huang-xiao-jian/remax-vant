@@ -1,39 +1,50 @@
 // packages
-import React, { FunctionComponent, Fragment, CSSProperties } from 'react';
+import React, { FunctionComponent, CSSProperties } from 'react';
 import clsx from 'clsx';
 import { View } from 'remax/wechat';
 // internal
+import { Select } from '../tools/Switch';
+import pickStyle from '../tools/pick-style';
+import withDefaultProps from '../tools/with-default-props-advance';
 import './Loading.css';
-import withDefaultProps from '../tools/with-default-props';
 
-interface LoadingProps {
+// 默认值填充部分
+interface NeutralLoadingProps {
+  color?: string;
   vertical: boolean;
   type: 'spinner' | 'circular';
-  color?: string;
   size?: string;
-  // 容器类名，用以覆盖内部
-  className?: string;
-  // loading 提示信息
-  message?: string;
+  textSize?: string;
 }
 
-const DefaultLoadingProps: LoadingProps = {
-  vertical: false,
+interface ExogenousLoadingProps {
+  // 容器类名，用以覆盖内部
+  className?: string;
+}
+
+type LoadingProps = ExogenousLoadingProps & NeutralLoadingProps;
+
+const DefaultLoadingProps: NeutralLoadingProps = {
+  color: '#c9c9c9',
   type: 'circular',
+  size: '30px',
+  textSize: '14px',
+  vertical: false,
 };
 
 const Dots: FunctionComponent = () => (
-  <Fragment>
+  <>
     {Array.from({ length: 12 }).map((_, index) => (
+      // eslint-disable-next-line react/no-array-index-key
       <View className="van-loading__dot" key={index} />
     ))}
-  </Fragment>
+  </>
 );
 
 const Loading: FunctionComponent<LoadingProps> = (props) => {
-  const { vertical, className, type, color, message, size } = props;
+  const { vertical, className, type, color, size, textSize, children } = props;
   const classnames = {
-    container: clsx('van-loading', className, {
+    container: clsx(className, 'van-loading', {
       'van-loading--vertical': vertical,
     }),
     spinner: clsx('van-loading__spinner', {
@@ -41,22 +52,34 @@ const Loading: FunctionComponent<LoadingProps> = (props) => {
       'van-loading__spinner--circular': type === 'circular',
     }),
   };
-  const stylesheets: Record<'container', CSSProperties> = {
-    container: {
+  const stylesheets: Record<'spinner' | 'text', CSSProperties> = {
+    spinner: pickStyle({
       color,
       width: size,
       height: size,
-    },
+    }),
+    text: pickStyle({
+      fontSize: textSize,
+    }),
+  };
+  const visibility = {
+    dots: type === 'spinner',
   };
 
   return (
-    <View className={classnames.container} style={stylesheets.container}>
-      <View className={classnames.spinner}>
-        {type === 'spinner' && <Dots />}
+    <View className={classnames.container}>
+      <View className={classnames.spinner} style={stylesheets.spinner}>
+        <Select in={visibility.dots}>
+          <Dots />
+        </Select>
       </View>
-      {message && <View className="van-loading__text">{message}</View>}
+      <View className="van-loading__text" style={stylesheets.text}>
+        {children}
+      </View>
     </View>
   );
 };
 
-export default withDefaultProps(DefaultLoadingProps)(Loading);
+export default withDefaultProps<ExogenousLoadingProps, NeutralLoadingProps>(
+  DefaultLoadingProps
+)(Loading);
