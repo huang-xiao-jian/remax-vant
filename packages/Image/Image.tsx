@@ -11,6 +11,7 @@ import clsx from 'clsx';
 import { View, Image as WechatImage } from 'remax/wechat';
 // internal
 import Icon from '../Icon';
+import { Select } from '../tools/Switch';
 import widthDefaultProps from '../tools/with-default-props-advance';
 import pickStyle from '../tools/pick-style';
 import './Image.css';
@@ -83,7 +84,9 @@ const DefaultImageProps: NeutralImageProps = {
   error: <Icon name="warning-o" size="22px" />,
 };
 
-// TODO - mixins: [button, openType]
+// Changes:
+//   1. use host image mode, instead of original consistance with web;
+//   2. use error to take place error slot, cooperate with default value;
 const Image: FunctionComponent<ImageProps> = (props) => {
   const {
     className,
@@ -106,12 +109,12 @@ const Image: FunctionComponent<ImageProps> = (props) => {
       'van-image--round': round,
     }),
   };
-  const style: CSSProperties = {
+  const stylesheet: CSSProperties = pickStyle({
     width,
     height,
     borderRadius: radius,
     overflow: radius && 'hidden',
-  };
+  });
   const [state, dispatch] = useReducer(
     (states: ImageState, action: ImageActions) => {
       switch (action.type) {
@@ -130,17 +133,8 @@ const Image: FunctionComponent<ImageProps> = (props) => {
       error: false,
     }
   );
-  // preserve vant-weapp style
-  const handleImageClick = useCallback(
-    (event) => {
-      // bubble up logical
-      if (typeof onClick === 'function') {
-        onClick(event.detail);
-      }
-    },
-    [onClick]
-  );
-  const handleImageLoad = useCallback(
+  // event handler wrap, attach internal state managerment and bubble up event
+  const onLoadWrap = useCallback(
     (event) => {
       // inside logical
       dispatch({
@@ -148,12 +142,12 @@ const Image: FunctionComponent<ImageProps> = (props) => {
       });
       // bubble up logical
       if (typeof onLoad === 'function') {
-        onLoad(event.detail);
+        onLoad(event);
       }
     },
     [onLoad]
   );
-  const handleImageError = useCallback(
+  const onErrorWrap = useCallback(
     (event) => {
       // inside logical
       dispatch({
@@ -161,49 +155,44 @@ const Image: FunctionComponent<ImageProps> = (props) => {
       });
       // bubble up logical
       if (typeof onError === 'function') {
-        onError(event.detail);
+        onError(event);
       }
     },
     [onError]
   );
 
+  // reset internal state after source change
   useEffect(() => {
-    // inside logical
     dispatch({
       type: 'IMAGE_LOAD_REFRESH',
     });
   }, [src]);
 
-  // render element
-  const children = {
-    image: (
-      <WechatImage
-        className="van-image__img"
-        src={src}
-        lazyLoad={lazyLoad}
-        mode={mode}
-        showMenuByLongpress={showMenuByLongpress}
-        onLoad={handleImageLoad}
-        onError={handleImageError}
-      />
-    ),
-    loading: state.loading && showLoading && loading && (
-      <View className="van-image__loading">{loading}</View>
-    ),
-    error: state.error && showError && error && (
-      <View className="van-image__error">{error}</View>
-    ),
+  const visibility: Record<'image' | 'loading' | 'error', boolean> = {
+    image: !state.error,
+    loading: state.loading && showLoading,
+    error: state.error && showError,
   };
 
   return (
-    <View
-      style={pickStyle(style)}
-      className={classnames.container}
-      onClick={handleImageClick}
-    >
-      {children.image}
-      {children.loading}
-      {children.error}
+    <View style={stylesheet} className={classnames.container} onClick={onClick}>
+      <Select in={visibility.image}>
+        <WechatImage
+          className="van-image__img"
+          src={src}
+          mode={mode}
+          lazyLoad={lazyLoad}
+          showMenuByLongpress={showMenuByLongpress}
+          onLoad={onLoadWrap}
+          onError={onErrorWrap}
+        />
+      </Select>
+      <Select in={visibility.loading}>
+        <View className="van-image__loading">{loading}</View>
+      </Select>
+      <Select in={visibility.error}>
+        <View className="van-image__error">{error}</View>
+      </Select>
     </View>
   );
 };
