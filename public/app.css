@@ -101,3 +101,7 @@
     }
   }
 }
+
+.demo-block__goods-action {
+  position: static !important;
+}
