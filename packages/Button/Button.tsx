@@ -1,18 +1,13 @@
 // packages
-import React, {
-  FunctionComponent,
-  CSSProperties,
-  ReactElement,
-  cloneElement,
-} from 'react';
+import React, { FunctionComponent, CSSProperties } from 'react';
 import clsx from 'clsx';
-import {
-  Button as WechatButton,
-  ButtonProps as WechatButtonProps,
-  View,
-} from 'remax/wechat';
+import { Button as WechatButton, View } from 'remax/wechat';
 // internal
+import Icon from '../Icon';
 import Loading from '../Loading';
+import { OpenTypeMixin, ButtonMixin } from '../mixin';
+import { deriveStyle, pickColor } from './wxs';
+import { Switch, Case, Select } from '../tools/Switch';
 import withDefaultProps from '../tools/with-default-props-advance';
 import './Button.css';
 
@@ -31,44 +26,34 @@ interface NeutralButtonProps {
   loading: boolean;
   hairline: boolean;
   disabled: boolean;
+  loadingType: 'circular' | 'spinner';
+  loadingSize: string;
   type: ButtonType;
   size: ButtonSize;
-  // 直接传递 loading 组件，不再进行属性透传
-  loader: ReactElement;
 }
 
 // 不包含默认值属性
 interface ExogenousButtonProps {
   loadingText?: string;
   color?: string;
+  dataset?: DOMStringMap;
   // 新增属性
   // 直接传递 icon，不再进行属性透传
-  icon?: ReactElement;
+  icon?: string;
   // host button property
   hoverClassName?: string;
+  // 自定义扩充
+  style?: CSSProperties;
   // 容器类名，用以覆盖内部
   className?: string;
   // 事件绑定
   onClick?: (event: any) => void;
 }
 
-type HostButtonProps = Pick<
-  WechatButtonProps,
-  | 'lang'
-  | 'sessionFrom'
-  | 'sendMessageTitle'
-  | 'sendMessagePath'
-  | 'sendMessageImg'
-  | 'appParameter'
-  | 'showMessageCard'
-  | 'onGetUserInfo'
-  | 'onContact'
-  | 'onGetPhoneNumber'
-  | 'onError'
-  | 'onLaunchApp'
-  | 'onOpenSetting'
->;
-type ButtonProps = NeutralButtonProps & ExogenousButtonProps & HostButtonProps;
+export type ButtonProps = NeutralButtonProps &
+  ExogenousButtonProps &
+  OpenTypeMixin &
+  ButtonMixin;
 
 // scope
 const DefaultButtonProps: NeutralButtonProps = {
@@ -81,29 +66,8 @@ const DefaultButtonProps: NeutralButtonProps = {
   loading: false,
   hairline: false,
   disabled: false,
-  loader: <Loading type="circular" size="20px" />,
-};
-
-const deriveHostButtonStyle = (color: string, plain: boolean) => {
-  const style: CSSProperties = {};
-
-  if (color) {
-    style.color = plain ? color : '#ffffff';
-
-    // Use background instead of backgroundColor to make linear-gradient work
-    if (!plain) {
-      style.background = color;
-    }
-
-    // hide border when color is linear-gradient
-    if (color.indexOf('gradient') !== -1) {
-      style.border = 0;
-    } else {
-      style.borderColor = color;
-    }
-  }
-
-  return style;
+  loadingType: 'circular',
+  loadingSize: '20px',
 };
 
 const Button: FunctionComponent<ButtonProps> = (props) => {
@@ -121,34 +85,15 @@ const Button: FunctionComponent<ButtonProps> = (props) => {
     hairline,
     color,
     icon,
-    loader,
+    style,
     loadingText,
     children,
+    dataset,
     onClick,
   } = props;
-  const unclickable = disabled || loading;
-  /* prettier-ignore */
-  /* eslint-disable no-nested-ternary */
-  const loadingColor = plain
-    ? (color ?? '#c9c9c9')
-    : (type === 'default' ? '#c9c9c9': '#ffffff');
-  const loadingHolder =
-    loader &&
-    cloneElement(loader, {
-      color: loadingColor,
-    });
-  const loadingTextHolder = loadingText && (
-    <View className="van-button__loading-text">{loadingText}</View>
-  );
-  const iconHolder =
-    icon &&
-    cloneElement(icon, {
-      size: '1.2em',
-      className: 'van-button__icon',
-    });
-  const staticHolder = <View className="van-button__text">{children}</View>;
 
   // UI property
+  const unclickable = disabled || loading;
   const classnames = {
     container: clsx(
       className,
@@ -169,26 +114,96 @@ const Button: FunctionComponent<ButtonProps> = (props) => {
     ),
     hover: clsx(hoverClassName, 'van-button--active'),
   };
-  const stylesheets: Record<'container', CSSProperties> = {
-    container: deriveHostButtonStyle(color, plain),
+  const stylesheets: Record<'container' | 'icon', CSSProperties> = {
+    // eslint-disable-next-line prefer-object-spread
+    container: Object.assign({}, style, deriveStyle(color, plain)),
+    icon: { lineHeight: 'inherit' },
   };
+  // 事件绑定
+  const onClickWrap = (event: any) => {
+    if (!disabled) {
+      if (typeof onClick === 'function') {
+        onClick(event);
+      }
+    }
+  };
+
+  // direct binding
+  const { loadingSize, loadingType } = props;
+  const visibility = {
+    loadingText: typeof loadingText === 'string',
+    icon: typeof icon === 'string',
+  };
+  // mixin
+  const {
+    lang,
+    openType,
+    sessionFrom,
+    sendMessageTitle,
+    sendMessageImg,
+    sendMessagePath,
+    showMessageCard,
+    appParameter,
+  } = props;
+  const {
+    onGetUserInfo,
+    onContact,
+    onGetPhoneNumber,
+    onError,
+    onLaunchApp,
+    onOpenSetting,
+  } = props;
 
   return (
     <WechatButton
       style={stylesheets.container}
       className={classnames.container}
       hoverClassName={classnames.hover}
-      onClick={onClick}
+      dataset={dataset}
+      lang={lang}
+      openType={openType}
+      sessionFrom={sessionFrom}
+      sendMessageTitle={sendMessageTitle}
+      sendMessagePath={sendMessagePath}
+      sendMessageImg={sendMessageImg}
+      showMessageCard={showMessageCard}
+      appParameter={appParameter}
+      onClick={onClickWrap}
+      onGetUserInfo={onGetUserInfo}
+      onContact={onContact}
+      onGetPhoneNumber={onGetPhoneNumber}
+      onError={onError}
+      onLaunchApp={onLaunchApp}
+      onOpenSetting={onOpenSetting}
     >
-      {loading && loadingHolder}
-      {loading && loadingTextHolder}
-      {!loading && iconHolder}
-      {!loading && staticHolder}
+      <Switch>
+        <Case in={loading}>
+          <Loading
+            size={loadingSize}
+            type={loadingType}
+            color={pickColor(type, color, plain)}
+          />
+          <Select in={visibility.loadingText}>
+            <View className="van-button__loading-text">{loadingText}</View>
+          </Select>
+        </Case>
+        <Case default>
+          <Select in={visibility.icon}>
+            <Icon
+              size="1.2em"
+              name={icon as string}
+              className="van-button__icon"
+              style={stylesheets.icon}
+            />
+          </Select>
+          <View className="van-button__text">{children}</View>
+        </Case>
+      </Switch>
     </WechatButton>
   );
 };
 
 export default withDefaultProps<
-  ExogenousButtonProps & HostButtonProps,
+  ExogenousButtonProps & OpenTypeMixin & ButtonMixin,
   NeutralButtonProps
 >(DefaultButtonProps)(Button);

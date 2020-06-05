@@ -5,7 +5,6 @@ import { View, Text } from 'remax/wechat';
 // internal
 import Button from '../../../packages/Button';
 import Icon from '../../../packages/Icon';
-import Loading from '../../../packages/Loading';
 
 // icons
 const icons = {
@@ -54,7 +53,7 @@ export default () => {
       <Text className="demo-block__title">加载状态</Text>
       <View className="demo-block__content">
         <Button loading type="primary" />
-        <Button loading type="primary" />
+        <Button loading type="primary" loadingType="spinner" />
         <Button loading type="info" loadingText="加载中..." />
       </View>
       <Text className="demo-block__title">按钮形状</Text>
@@ -68,11 +67,11 @@ export default () => {
       </View>
       <Text className="demo-block__title">图标按钮</Text>
       <View className="demo-block__content">
-        <Button type="primary" icon={icons.builtIn} />
-        <Button type="primary" icon={icons.builtIn}>
+        <Button type="primary" icon="star-o" />
+        <Button type="primary" icon="star-o">
           按钮
         </Button>
-        <Button type="info" icon={icons.external}>
+        <Button plain type="info" icon="https://img.yzcdn.cn/vant/logo.png">
           按钮
         </Button>
       </View>
