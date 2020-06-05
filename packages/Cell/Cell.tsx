@@ -1,21 +1,16 @@
 // packages
-import React, {
-  FunctionComponent,
-  ReactNode,
-  ReactElement,
-  cloneElement,
-  isValidElement,
-} from 'react';
+import React, { FunctionComponent, ReactNode, CSSProperties } from 'react';
 import clsx from 'clsx';
 import { View } from 'remax/wechat';
 // internal
+import Icon from '../Icon';
+import { Select, Switch, Case } from '../tools/Switch';
 import withDefaultProps from '../tools/with-default-props-advance';
-import addClass from '../tools/add-class';
+import pickStyle from '../tools/pick-style';
 import './Cell.css';
 
 // 默认值填充属性
 interface NeutralCellProps {
-  // 移植属性
   required: boolean;
   border: boolean;
   clickable: boolean;
@@ -25,11 +20,15 @@ interface NeutralCellProps {
 }
 
 interface ExogenousCellProps {
-  title?: ReactNode;
-  label?: ReactNode;
+  titleWidth?: string;
+  // the same name slot
+  title?: string | ReactNode;
+  icon?: string | ReactNode;
+  label?: string | ReactNode;
   value?: ReactNode;
-  icon?: ReactNode;
   rightIcon?: ReactNode;
+  style?: CSSProperties;
+  arrowDirection?: 'left' | 'up' | 'down';
   // 改造新增属性
   hoverClassName?: string;
   // 容器类名，用以覆盖内部
@@ -61,10 +60,13 @@ const Cell: FunctionComponent<CellProps> = (props) => {
     clickable,
     hoverClassName,
     title,
+    titleWidth,
     label,
     value,
     icon,
+    style,
     rightIcon,
+    arrowDirection,
   } = props;
   const { onClick } = props;
   const classnames = {
@@ -74,43 +76,61 @@ const Cell: FunctionComponent<CellProps> = (props) => {
       'van-cell--borderless': !border,
       'van-cell--clickable': isLink || clickable,
     }),
-    hover: clsx('van-cell--hover', hoverClassName),
+    hover: clsx(hoverClassName, 'van-cell--hover'),
   };
-  // add extra built-in classname
-  // TODO - weired icon drift issue, add icon style line-height: 24px, but why?
-  const clones = {
-    icon: isValidElement(icon)
-      ? cloneElement(icon, {
-          className: addClass(icon.props.className, [
-            'van-cell__left-icon-wrap',
-            'van-cell__left-icon',
-          ]),
-        })
-      : icon,
-    rightIcon: isValidElement(rightIcon)
-      ? cloneElement(rightIcon, {
-          className: addClass(rightIcon.props.className, [
-            'van-cell__right-icon-wrap',
-            'van-cell__right-icon',
-          ]),
-        })
-      : rightIcon,
+  const stylesheets: Record<'title', CSSProperties> = {
+    title: pickStyle({
+      maxWidth: titleWidth,
+      minWidth: titleWidth,
+    }),
+  };
+
+  const visibility = {
+    builtinIcon: typeof icon === 'string',
+    label: !!label,
+    value: !!value,
   };
 
   return (
     <View
+      style={style}
       className={classnames.container}
       hoverClassName={classnames.hover}
       hoverStayTime={70}
       onClick={onClick}
     >
-      {clones.icon}
-      <View className="van-cell__title">
+      {/* left icon */}
+      <Switch>
+        <Case in={visibility.builtinIcon}>
+          <View className="van-cell__left-icon-wrap">
+            <Icon name={icon as string} className="van-cell__left-icon" />
+          </View>
+        </Case>
+        <Case default>{icon as ReactNode}</Case>
+      </Switch>
+      {/* title */}
+      <View className="van-cell__title" style={stylesheets.title}>
         {title}
-        <View className="van-cell__label">{label}</View>
+        <Select in={visibility.label}>
+          <View className="van-cell__label">{label}</View>
+        </Select>
       </View>
-      <View className="van-cell__value">{value}</View>
-      {clones.rightIcon}
+      {/* value */}
+      <Select in={visibility.value}>
+        <View className="van-cell__value">{value}</View>
+      </Select>
+      {/* right */}
+      <Switch>
+        <Case in={isLink}>
+          <View className="van-cell__right-icon-wrap">
+            <Icon
+              className="van-cell__right-icon"
+              name={arrowDirection ? `arrow-${arrowDirection}` : 'arrow'}
+            />
+          </View>
+        </Case>
+        <Case default>{rightIcon}</Case>
+      </Switch>
     </View>
   );
 };

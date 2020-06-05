@@ -1,19 +1,25 @@
 // packages
-import React, { FunctionComponent, Fragment } from 'react';
+import React, { FunctionComponent } from 'react';
 import clsx from 'clsx';
 import { View } from 'remax/wechat';
 // internal
-import withDefaultProps from '../tools/with-default-props';
+import { Select } from '../tools/Switch';
+import withDefaultProps from '../tools/with-default-props-advance';
 import './CellGroup.css';
 
-interface CellGroupProps {
+// 默认值填充属性
+interface NeutralCellGroupProps {
+  border: boolean;
+}
+
+interface ExogenousCellGroupProps {
   // 移植属性
   title?: string;
-  border: boolean;
-  // 改造新增属性
   // 容器类名，用以覆盖内部
   className?: string;
 }
+
+type CellGroupProps = ExogenousCellGroupProps & NeutralCellGroupProps;
 
 // scope
 const DefaultCellGroupProps: CellGroupProps = {
@@ -27,17 +33,21 @@ const CellGroup: FunctionComponent<CellGroupProps> = (props) => {
       'van-hairline--top-bottom': border,
     }),
   };
-  const header = title && (
-    <View className="van-cell-group__title">{title}</View>
-  );
-  const content = <View className={classnames.container}>{children}</View>;
+
+  const visibility = {
+    title: typeof title === 'string',
+  };
 
   return (
-    <Fragment>
-      {header}
-      {content}
-    </Fragment>
+    <>
+      <Select in={visibility.title}>
+        <View className="van-cell-group__title">{title}</View>
+      </Select>
+      <View className={classnames.container}>{children}</View>
+    </>
   );
 };
 
-export default withDefaultProps(DefaultCellGroupProps)(CellGroup);
+export default withDefaultProps<ExogenousCellGroupProps, NeutralCellGroupProps>(
+  DefaultCellGroupProps
+)(CellGroup);
