@@ -59,7 +59,7 @@ const Icon: FunctionComponent<IconProps> = (props) => {
     })
   );
   const visibility = {
-    info: info !== null || dot,
+    info: !!info || dot,
     image: external,
   };
 
