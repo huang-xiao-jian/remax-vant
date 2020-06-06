@@ -4,7 +4,6 @@ import clsx from 'clsx';
 import { View, Text } from 'remax/wechat';
 // internal
 import Button from '../Button';
-import { ButtonType } from '../Button/Button';
 import Icon from '../Icon';
 import withDefaultProps from '../tools/with-default-props-advance';
 import { Select, Switch, Case } from '../tools/Switch';
@@ -19,20 +18,21 @@ interface NeutralSubmitBarProps {
   // button
   loading: boolean;
   disabled: boolean;
-  buttonType: ButtonType;
+  buttonType: 'default' | 'primary' | 'info' | 'warning' | 'danger';
 }
 
 interface ExogenousSubmitBarProps {
+  // 单位为分
+  price: number;
+  suffixLabel?: string;
+  buttonText: string;
   // 容器类名，用以覆盖内部
   className?: string;
   // tip block
-  tip?: ReactNode;
+  tip?: string | ReactNode;
   tipIcon?: string;
-  // 推荐精确到分
-  price: number;
-  suffixLabel?: string;
+
   // button
-  buttonText: string;
   onSubmit?: (event: any) => void;
 }
 
@@ -111,7 +111,7 @@ const SubmitBar: FunctionComponent<SubmitBarProps> = (props) => {
         <Select in={derivation.hasPrice}>
           <View className="van-submit-bar__text">
             <Text>{label}</Text>
-            <Text className="van-submit-bar__price price-class">
+            <Text className="van-submit-bar__price">
               <Text className="van-submit-bar__currency">{currency} </Text>
               <Text className="van-submit-bar__price-integer">
                 {derivation.integerStr}
