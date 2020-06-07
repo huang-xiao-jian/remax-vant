@@ -37,15 +37,11 @@ const Divider: FunctionComponent<DividerProps> = (props) => {
     children,
   } = props;
   const classnames = {
-    container: clsx(
-      className,
-      'van-divider',
-      contentPostion && `van-divider--${contentPostion}`,
-      {
-        'van-divider--dashed': dashed,
-        'van-divider--hairline': hairline,
-      }
-    ),
+    container: clsx(className, 'van-divider', {
+      'van-divider--dashed': dashed,
+      'van-divider--hairline': hairline,
+      [`van-divider--${contentPostion}`]: !!contentPostion,
+    }),
   };
 
   return (
