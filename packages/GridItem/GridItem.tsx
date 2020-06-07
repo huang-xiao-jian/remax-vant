@@ -59,27 +59,23 @@ const GridItem: FunctionComponent<GridItemProps> = (props) => {
     ),
   };
   const style: Record<'view' | 'content', CSSProperties> = {
-    view: {
+    view: pickStyle({
       width: `${100 / (columnNum as number)}%`,
       paddingTop: square ? `${100 / (columnNum as number)}%` : undefined,
       paddingRight: gutter ?? undefined,
       marginTop:
         (index as number) >= (columnNum as number) ? gutter : undefined,
-    },
-    content: {
+    }),
+    content: pickStyle({
       height: 'auto',
       right: square ? gutter : undefined,
       bottom: square ? gutter : undefined,
-    },
+    }),
   };
 
   return (
-    <View
-      style={pickStyle(style.view)}
-      className={classnames.container}
-      onClick={onClick}
-    >
-      <View style={pickStyle(style.content)} className={classnames.item}>
+    <View style={style.view} className={classnames.container} onClick={onClick}>
+      <View style={style.content} className={classnames.item}>
         {children}
       </View>
     </View>

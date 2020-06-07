@@ -50,9 +50,9 @@ const Grid: FunctionComponent<GridProps> = (props) => {
       'van-hairline--top': border && !gutter,
     }),
   };
-  const style: CSSProperties = {
+  const style: CSSProperties = pickStyle({
     paddingLeft: gutter,
-  };
+  });
 
   // attach index property to grid item child
   // transport share property to grid item child
@@ -66,7 +66,7 @@ const Grid: FunctionComponent<GridProps> = (props) => {
   );
 
   return (
-    <View style={pickStyle(style)} className={classnames.container}>
+    <View style={style} className={classnames.container}>
       {children}
     </View>
   );
