@@ -117,3 +117,7 @@ page {
 .demo-block__tabbar {
   position: static !important;
 }
+
+.demo-block__radio {
+  margin-top: 6px;
+}
