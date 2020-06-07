@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { View } from 'remax/wechat';
 // internal
 import withDefaultProps from '../tools/with-default-props-advance';
-import pickStyle from '../tools/pick-style';
+import { Select } from '../tools/Switch';
 import './Progress.css';
 
 // 默认值填充属性
@@ -68,16 +68,15 @@ const Progress: FunctionComponent<ProgressProps> = (props) => {
       background: pivotColor ?? (inactive ? '#cacaca' : color),
     },
   };
-  const censor = showPivot && (
-    <View style={pickStyle(style.censor)} className="van-progress__pivot">
-      {pivotText ?? `${percentage}%`}
-    </View>
-  );
 
   return (
-    <View style={pickStyle(style.container)} className={classnames.container}>
-      <View style={pickStyle(style.tracker)} className={classnames.tracker}>
-        {censor}
+    <View style={style.container} className={classnames.container}>
+      <View style={style.tracker} className={classnames.tracker}>
+        <Select in={showPivot}>
+          <View style={style.censor} className="van-progress__pivot">
+            {pivotText ?? `${percentage}%`}
+          </View>
+        </Select>
       </View>
     </View>
   );

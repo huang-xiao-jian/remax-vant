@@ -13,15 +13,16 @@ export default () => {
         <Progress percentage={30} />
         <Progress percentage={45} />
       </View>
+      <Text className="demo-block__title">线条粗细</Text>
+      <View className="demo-block__content">
+        <Progress percentage={30} />
+        <Progress percentage={45} strokeWidth="8px" />
+      </View>
       <Text className="demo-block__title">置灰</Text>
       <View className="demo-block__content">
         <Progress percentage={60} inactive />
       </View>
       <Text className="demo-block__title">样式定制</Text>
-      <View className="demo-block__content">
-        <Progress percentage={30} />
-      </View>
-      <Text className="demo-block__title">基础用法</Text>
       <View className="demo-block__content">
         <Progress pivotText="橙色" color="#f2826a" percentage={80} />
         <Progress pivotText="红色" color="#ee0a24" percentage={74} />
