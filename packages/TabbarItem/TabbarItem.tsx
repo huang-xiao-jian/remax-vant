@@ -18,6 +18,8 @@ import './TabbarItem.css';
 type renderIcon = (active: boolean) => ReactNode;
 
 interface ExogenousTabbarItemProps {
+  // 标签名称，作为匹配的标识符，默认情况下，使用自然序 index 匹配
+  name?: number | string;
   // use render prop within complicated
   icon: string | renderIcon;
   // 容器类名，用以覆盖内部

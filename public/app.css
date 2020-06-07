@@ -113,3 +113,7 @@ page {
 .demo-block__submit-bar {
   position: static !important;
 }
+
+.demo-block__tabbar {
+  position: static !important;
+}

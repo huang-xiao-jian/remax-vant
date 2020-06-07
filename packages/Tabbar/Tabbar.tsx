@@ -18,16 +18,17 @@ import './Tabbar.css';
 interface NeutralTabbarProps {
   fixed: boolean;
   border: boolean;
-  safeAreaInsetBottom: boolean;
   zIndex: number;
   // pass down for tabbar item
   activeColor: string;
   inactiveColor: string;
+  safeAreaInsetBottom: boolean;
 }
 
+// 暂且保持一致，active field 有歧义，考虑替换为 activeKey
 interface ExogenousTabbarProps {
   // 选中索引
-  active: number;
+  active: number | string;
   // 容器类名，用以覆盖内部
   className?: string;
   // trigger on every item click
@@ -61,9 +62,9 @@ const Tabbar: FunctionComponent<TabbarProps> = (props) => {
     onChange,
   } = props;
 
-  const style: CSSProperties = {
+  const style: CSSProperties = pickStyle({
     zIndex,
-  };
+  });
   const classnames = {
     container: clsx(className, 'van-tabbar', {
       'van-tabbar--fixed': fixed,
@@ -79,14 +80,14 @@ const Tabbar: FunctionComponent<TabbarProps> = (props) => {
     !isValidElement(child)
       ? child
       : cloneElement(child, {
-          active: active === index,
-          onClick: () => onChange({ detail: index }),
+          active: active === child.props.name || active === index,
+          onClick: () => onChange({ detail: child.props.name || index }),
         })
   );
 
   return (
     <TabbarContext.Provider value={payload}>
-      <View style={pickStyle(style)} className={classnames.container}>
+      <View style={style} className={classnames.container}>
         {elements}
       </View>
     </TabbarContext.Provider>
