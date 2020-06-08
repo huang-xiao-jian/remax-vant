@@ -21,18 +21,18 @@ interface SidebarProps {
 }
 
 const Sidebar: FunctionComponent<SidebarProps> = (props) => {
-  const { className, activeKey, onChange, children } = props;
+  const { className, activeKey, children, onChange } = props;
   const classnames = {
     container: clsx(className, 'van-sidebar'),
   };
-  const elements = Children.map(children, (child, index) => {
-    return !isValidElement(child)
+  const elements = Children.map(children, (child, index) =>
+    !isValidElement(child)
       ? child
       : cloneElement(child, {
           selected: index === activeKey,
           onClick: () => onChange({ detail: index }),
-        });
-  });
+        })
+  );
 
   return <View className={classnames.container}>{elements}</View>;
 };
