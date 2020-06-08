@@ -6,10 +6,10 @@ import React, {
   useMemo,
 } from 'react';
 import clsx from 'clsx';
-import { View, Text } from 'remax/wechat';
+import { View } from 'remax/wechat';
 // internal
 import Icon from '../Icon';
-import { Switch, Case } from '../tools/Switch';
+import { Switch, Case, Select } from '../tools/Switch';
 import withDefaultProps from '../tools/with-default-props-advance';
 import './NavBar.css';
 
@@ -24,9 +24,9 @@ interface NeutralNavBarProps {
 }
 
 interface ExogenousNavBarProps {
-  title?: ReactNode;
-  left?: ReactNode;
-  right?: ReactNode;
+  title?: string | ReactNode;
+  left?: string | ReactNode;
+  right?: string | ReactNode;
   // 自定义行内样式
   style?: CSSProperties;
   // 容器类名，用以覆盖内部
@@ -60,60 +60,73 @@ const NavBar: FunctionComponent<NavBarProps> = (props) => {
     zIndex,
     placeholder,
     safeAreaInsetTop,
-    style: styleIn,
+    style: styleOut,
     onClickLeft,
     onClickRight,
   } = props;
+
+  const { statusBarHeight } = useMemo(() => wx.getSystemInfoSync(), []);
+  const height = safeAreaInsetTop ? 44 + statusBarHeight : 44;
+
+  const visibilify: Record<string, boolean> = {
+    placeholder: fixed && placeholder,
+    leftArrow: !!leftArrow,
+    leftText: typeof left === 'string',
+    rightText: typeof right === 'string',
+  };
+  // style
+  const stylesheets: Record<string, CSSProperties> = {
+    placeholder: { height: `${height}px` },
+    // eslint-disable-next-line prefer-object-spread
+    container: Object.assign({}, styleOut, {
+      paddingTop: safeAreaInsetTop ? `${statusBarHeight}px` : 0,
+      zIndex,
+    }),
+  };
+  // classname
   const classnames = {
     container: clsx(className, 'van-nav-bar', {
       'van-nav-bar--fixed': fixed,
       'van-hairline--bottom': border,
     }),
   };
-  const { statusBarHeight } = useMemo(() => wx.getSystemInfoSync(), []);
-  const styleInside: CSSProperties = {
-    paddingTop: safeAreaInsetTop ? `${statusBarHeight}px` : 0,
-    zIndex,
-  };
-  const height = safeAreaInsetTop ? 44 + statusBarHeight : 44;
-  const style = styleIn ? { ...styleIn, styleInside } : styleInside;
 
   return (
     <>
-      {fixed && placeholder && <View style={{ height: `${height}px` }} />}
-      <View style={style} className={classnames.container}>
+      <Select in={visibilify.placeholder}>
+        <View style={stylesheets.placeholder} />
+      </Select>
+      <View style={stylesheets.container} className={classnames.container}>
         {/* left */}
         <View className="van-nav-bar__left" onClick={onClickLeft}>
           <Switch>
-            <Case in={leftArrow || typeof left === 'string'}>
-              {leftArrow && (
+            <Case in={visibilify.leftArrow || visibilify.leftText}>
+              <Select in={visibilify.leftArrow}>
                 <Icon
                   name="arrow-left"
                   size="16px"
                   className="van-nav-bar__arrow"
                 />
-              )}
-              {typeof left === 'string' && (
+              </Select>
+              <Select in={visibilify.leftText}>
                 <View
                   className="van-nav-bar__text"
                   hoverClassName="van-nav-bar__text--hover"
                   hoverStayTime={70}
                 >
                   {left}
-                </View>
-              )}
+                </View>{' '}
+              </Select>
             </Case>
             <Case default>{left}</Case>
           </Switch>
         </View>
-        {/* center */}
-        <View className="van-nav-bar__title van-ellipsis">
-          {typeof title === 'string' ? <Text>{title}</Text> : title}
-        </View>
+        {/* shortcut implementation from origin */}
+        <View className="van-nav-bar__title van-ellipsis">{title}</View>
         {/* right */}
         <View className="van-nav-bar__right" onClick={onClickRight}>
           <Switch>
-            <Case in={typeof right === 'string'}>
+            <Case in={visibilify.rightText}>
               <View
                 className="van-nav-bar__text"
                 hoverClassName="van-nav-bar__text--hover"
