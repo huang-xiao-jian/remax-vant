@@ -13,5 +13,5 @@
     },
     "lib": ["DOM", "ES2015"]
   },
-  "include": ["typings/**/*", "packages/**/*"]
+  "include": ["typings/**/*", "packages/**/*", "public/**/*"]
 }
