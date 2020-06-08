@@ -118,6 +118,7 @@ page {
   position: static !important;
 }
 
-.demo-block__radio {
+.demo-block__radio,
+.demo-block__checkbox {
   margin-top: 6px;
 }
