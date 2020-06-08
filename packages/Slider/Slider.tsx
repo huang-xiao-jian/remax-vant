@@ -11,6 +11,8 @@ import clsx from 'clsx';
 import { usePageInstance } from 'remax';
 import { View } from 'remax/wechat';
 // internal
+import { Switch, Case } from '../tools/Switch';
+import pickStyle from '../tools/pick-style';
 import withDefaultProps from '../tools/with-default-props-advance';
 import './Slider.css';
 
@@ -35,13 +37,11 @@ interface NeutralSliderProps {
 interface ExogenousSliderProps {
   // 受控组件
   value: number;
-  // 非受控组件初始值
-  initialValue?: number;
-  // 事件绑定
-  onChange: (event: SliderEvent) => void;
   // 改造新增属性
   // 容器类名，用以覆盖内部
   className?: string;
+  // 事件绑定
+  onChange?: (event: SliderEvent) => void;
 }
 
 interface DragState {
@@ -50,16 +50,7 @@ interface DragState {
   startValue?: number;
 }
 
-// HOC
 type SliderProps = NeutralSliderProps & ExogenousSliderProps;
-type TransparentDefaultProps = ExogenousSliderProps &
-  Partial<NeutralSliderProps>;
-type NeutralListenerKeys = 'value' | 'onChange';
-type TransparentNeutralListenerProps = Omit<
-  TransparentDefaultProps,
-  NeutralListenerKeys
-> &
-  Partial<Pick<TransparentDefaultProps, NeutralListenerKeys>>;
 
 const DefaultSliderProps: NeutralSliderProps = {
   disabled: false,
@@ -75,7 +66,8 @@ const DefaultSliderProps: NeutralSliderProps = {
 const format = (max: number, min: number, step: number, value: number) =>
   Math.round(Math.max(min, Math.min(value, max)) / step) * step;
 
-// TODO - support custom inside button
+// CHANGES:
+// 1. remove transition: none change;
 // TODO - better strategy to deal with `disabled` behavior
 const Slider: FunctionComponent<SliderProps> = (props) => {
   const {
@@ -85,9 +77,10 @@ const Slider: FunctionComponent<SliderProps> = (props) => {
     min,
     max,
     step,
-    value: originValue,
+    value: _value1,
     barHeight,
     disabled,
+    children,
     onChange,
   } = props;
 
@@ -95,8 +88,7 @@ const Slider: FunctionComponent<SliderProps> = (props) => {
   const ref = useRef<DragState>({
     status: 'SILENT',
   });
-  const page = usePageInstance();
-  const value = format(max, min, step, originValue);
+  const value = format(max, min, step, _value1);
 
   /* ui property binding */
   const classnames = {
@@ -104,26 +96,23 @@ const Slider: FunctionComponent<SliderProps> = (props) => {
       'van-slider--disabled': disabled,
     }),
   };
-  const styles: Record<'container' | 'bar', CSSProperties> = {
+  const stylesheets: Record<'container' | 'bar', CSSProperties> = {
     // for outer view container
-    container: inactiveColor
-      ? {
-          backgroundColor: inactiveColor,
-        }
-      : {},
+    container: pickStyle({
+      backgroundColor: inactiveColor,
+    }),
     // for inner bar
-    bar: {
+    bar: pickStyle({
       width: `${((value - min) * 100) / (max - min)}%`,
       height: barHeight,
       backgroundColor: activeColor,
-    },
+    }),
   };
   /* function block */
-  const handleContainerClick = useCallback(
-    (event: WechatMiniprogram.TapEvent) => {
-      page
-        .createSelectorQuery()
-        .select('.van-slider')
+  const onContainerClick = useCallback(
+    (event) => {
+      wx.createSelectorQuery()
+        .select('#van-slider')
         .boundingClientRect()
         .exec(([bounding]: [WechatMiniprogram.BoundingClientRectResult]) => {
           const raw =
@@ -132,13 +121,15 @@ const Slider: FunctionComponent<SliderProps> = (props) => {
           const next = format(max, min, step, raw);
 
           // bubble up
-          onChange({ detail: next });
+          if (typeof onChange === 'function') {
+            onChange({ detail: next });
+          }
         });
     },
-    [max, min]
+    [max, min, step, onChange]
   );
 
-  const handleTouchStart = (event: WechatMiniprogram.TapEvent) => {
+  const onTouchStart = (event: any) => {
     // 初始滑动标记
     ref.current = {
       status: 'START',
@@ -147,68 +138,68 @@ const Slider: FunctionComponent<SliderProps> = (props) => {
     };
   };
 
-  const handleTouchMove = useCallback((event: WechatMiniprogram.TapEvent) => {
-    page
-      .createSelectorQuery()
-      .select('.van-slider')
+  const onTouchMove = (event: any) => {
+    wx.createSelectorQuery()
+      .select('#van-slider')
       .boundingClientRect()
       .exec(([bounding]: [WechatMiniprogram.BoundingClientRectResult]) => {
         // 状态标记，用以 transition 样式计算
         ref.current.status = 'DRAGING';
+
+        console.group('slider');
+        console.log(ref.current);
+        // 滑动距离计算 value 变化
         const diff =
-          ((event.touches[0].clientX - ref.current.startX) / bounding.width) *
+          ((event.touches[0].clientX - (ref.current.startX as number)) /
+            bounding.width) *
           (max - min);
-        const raw = ref.current.startValue + diff;
+        const raw = (ref.current.startValue as number) + diff;
         const next = format(max, min, step, raw);
 
+        console.log(diff);
+        console.log(raw);
+        console.groupEnd();
+
         // bubble up
-        onChange({ detail: next });
+        if (typeof onChange === 'function') {
+          onChange({ detail: next });
+        }
       });
-  }, []);
+  };
 
   // TouchEnd, TouchCancel 合体
-  const handleTouchEndCancel = useCallback(() => {
+  const onTouchCancel = useCallback(() => {
     // 滑动结束标记
     ref.current.status = 'SILENT';
   }, []);
 
   return (
     <View
-      style={styles.container}
+      id="van-slider"
+      style={stylesheets.container}
       className={classnames.container}
-      // @ts-ignore
-      onClick={handleContainerClick}
+      onClick={onContainerClick}
     >
-      <View className="van-slider__bar" style={styles.bar}>
+      <View className="van-slider__bar" style={stylesheets.bar}>
         <View
           className="van-slider__button-wrapper"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEndCancel}
-          onTouchCancel={handleTouchEndCancel}
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchCancel}
+          onTouchCancel={onTouchCancel}
         >
-          <View className="van-slider__button" />
+          <Switch>
+            <Case in={!!children}>{children}</Case>
+            <Case default>
+              <View className="van-slider__button" />
+            </Case>
+          </Switch>
         </View>
       </View>
     </View>
   );
 };
 
-// TODO - support controlled component
-// withDefaultProps 最底层
-const withDefaultListener = (
-  Component: ComponentType<TransparentDefaultProps>
-) => (props: TransparentNeutralListenerProps) => {
-  const [value, setValue] = useState(props.initialValue || 0);
-  const handleChangeEvent = useCallback((event: SliderEvent) => {
-    setValue(event.detail);
-  }, []);
-
-  return <Component {...props} value={value} onChange={handleChangeEvent} />;
-};
-
-export default withDefaultListener(
-  withDefaultProps<ExogenousSliderProps, NeutralSliderProps>(
-    DefaultSliderProps
-  )(Slider)
-);
+export default withDefaultProps<ExogenousSliderProps, NeutralSliderProps>(
+  DefaultSliderProps
+)(Slider);
