@@ -12,12 +12,15 @@ interface ExogenousPanelProps {
 }
 
 type PanelProps = ExogenousPanelProps;
+
 // resolve static type mismatch issue
-type PanelType = FunctionComponent<PanelProps> & {
+type PanelStatic = {
   Header: FunctionComponent;
   Content: FunctionComponent;
   Footer: FunctionComponent;
 };
+
+type PanelType = FunctionComponent<PanelProps> & PanelStatic;
 
 const Header: FunctionComponent = ({ children }) => (
   <View className="van-panel__header">{children}</View>
