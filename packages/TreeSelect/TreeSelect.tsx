@@ -1,11 +1,12 @@
 // packages
-import React, { FunctionComponent, CSSProperties, useReducer } from 'react';
+import React, { FunctionComponent, CSSProperties } from 'react';
 import clsx from 'clsx';
 import { View, ScrollView } from 'remax/wechat';
 // internal
 import Sidebar from '../Sidebar';
 import SidebarItem from '../SidebarItem';
 import Icon from '../Icon';
+import { Select } from '../tools/Switch';
 import withDefaultProps from '../tools/with-default-props-advance';
 import './TreeSelect.css';
 
@@ -31,10 +32,10 @@ interface NeutralTreeSelectProps {
 
 interface ExogenousTreeSelectProps {
   items: TreeSelectItem[];
-  onClickNav: (event: { detail: number }) => void;
-  onClickItem: (event: { detail: number }) => void;
   // 容器类名，用以覆盖内部
   className?: string;
+  onClickNav: (index: number) => void;
+  onClickItem: (index: number) => void;
 }
 
 type TreeSelectProps = NeutralTreeSelectProps & ExogenousTreeSelectProps;
@@ -45,6 +46,8 @@ const DefaultTreeSelectProps: NeutralTreeSelectProps = {
   height: '300px',
 };
 
+// Changes:
+//   1. drop `max` property, transfer control to users;
 const TreeSelect: FunctionComponent<TreeSelectProps> = (props) => {
   const {
     className,
@@ -58,28 +61,37 @@ const TreeSelect: FunctionComponent<TreeSelectProps> = (props) => {
   const classnames = {
     container: clsx(className, 'van-tree-select'),
   };
-  const style: CSSProperties = {
-    height,
+  const stylesheets: Record<string, CSSProperties> = {
+    container: {
+      height,
+    },
   };
   // logical
   const { children = [] } = items[mainActiveIndex] || {};
+
+  // 事件回调
   const onClickNavWrap = (event: { detail: number }) => {
     const nav = items[event.detail];
 
     if (!nav.disabled) {
-      onClickNav(event);
+      onClickNav(event.detail);
     }
   };
+
   const onClickItemWrap = (event: { detail: TreeSelectChild }) => {
     if (!event.detail.disabled) {
-      onClickItem({ detail: event.detail.id });
+      onClickItem(event.detail.id);
     }
   };
 
   return (
-    <View style={style} className={classnames.container}>
+    <View style={stylesheets.container} className={classnames.container}>
       <ScrollView scrollY className="van-tree-select__nav">
-        <Sidebar activeKey={mainActiveIndex} onChange={onClickNavWrap}>
+        <Sidebar
+          className="van-tree-select__nav__inner"
+          activeKey={mainActiveIndex}
+          onChange={onClickNavWrap}
+        >
           {items.map((item, index) => (
             // eslint-disable-next-line react/no-array-index-key
             <SidebarItem key={index} disabled={item.disabled}>
@@ -88,22 +100,18 @@ const TreeSelect: FunctionComponent<TreeSelectProps> = (props) => {
           ))}
         </Sidebar>
       </ScrollView>
+
       <ScrollView scrollX className="van-tree-select__content">
         {children.map((child) => {
           const active = Array.isArray(activeId)
             ? activeId.includes(child.id)
             : activeId === child.id;
+
           const classNameItem = clsx('van-ellipsis', 'van-tree-select__item', {
             'van-tree-select__item--active': active,
             'van-tree-select__item--disable': child.disabled,
           });
-          const icon = active && (
-            <Icon
-              name="checked"
-              size="16px"
-              className="van-tree-select__selected"
-            />
-          );
+
           return (
             <View
               key={child.id}
@@ -111,7 +119,13 @@ const TreeSelect: FunctionComponent<TreeSelectProps> = (props) => {
               onClick={() => onClickItemWrap({ detail: child })}
             >
               {child.text}
-              {icon}
+              <Select in={active}>
+                <Icon
+                  name="checked"
+                  size="16px"
+                  className="van-tree-select__selected"
+                />
+              </Select>
             </View>
           );
         })}
