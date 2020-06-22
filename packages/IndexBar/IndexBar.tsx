@@ -23,7 +23,7 @@ interface ExogenousIndexBarProps {
   // 容器类名，用以覆盖内部
   className?: string;
   // 选择字符回调
-  onSelect?: (event: { detail: string }) => void;
+  onSelect?: (index: string) => void;
 }
 
 type IndexBarProps = NeutralIndexBarProps & ExogenousIndexBarProps;
@@ -70,7 +70,7 @@ const IndexBar: FunctionComponent<IndexBarProps> = (props) => {
 
     // 冒泡
     if (typeof onSelect === 'function') {
-      onSelect({ detail: index });
+      onSelect(index);
     }
 
     // 滚动

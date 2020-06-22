@@ -36,18 +36,19 @@ const IndexAnchor: FunctionComponent<IndexAnchorProps> = (props) => {
   // 新增属性，便于获取实际节点
   const id = useMemo(() => `van-index-anchor-wrapper-${index}`, [index]);
 
+  // 匹配时自动滚动
   useNativeEffect(() => {
-    wx.createSelectorQuery()
-      .select(`#${id}`)
-      .boundingClientRect()
-      .exec(([rect]: [WechatMiniprogram.BoundingClientRectResult]) => {
-        if (activeAnchorIndex === index) {
+    if (activeAnchorIndex === index) {
+      wx.createSelectorQuery()
+        .select(`#${id}`)
+        .boundingClientRect()
+        .exec(([rect]: [WechatMiniprogram.BoundingClientRectResult]) => {
           wx.pageScrollTo({
             // duration: 0,
             scrollTop: scrollTop + rect.top,
           });
-        }
-      });
+        });
+    }
   }, [activeAnchorIndex]);
 
   return (
