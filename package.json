@@ -8,15 +8,15 @@
   "author": "huang.jian <hjj491229492@hotmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "remax build -t wechat -w",
+    "dev": "remant bootstrap -f storyboard/app.template.ts",
     "build": "cross-env NODE_ENV=production remax build -t wechat"
   },
   "dependencies": {
     "clsx": "^1.1.0",
     "lodash.pickby": "^4.6.0",
     "react": "^16.12.0",
-    "remax": "^2.0.7",
-    "remax-vant-cli": "^0.6.0"
+    "remax": "^2.5.4",
+    "remax-vant-cli": "^0.7.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",

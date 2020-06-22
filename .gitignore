@@ -76,3 +76,4 @@ build
 /bundle
 /native
 .awcache
+storyboard/app.config.ts
