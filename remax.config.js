@@ -1,4 +1,4 @@
 module.exports = {
-  rootDir: 'public',
+  rootDir: 'storyboard',
   pxToRpx: false,
 };
