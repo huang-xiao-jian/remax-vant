@@ -24,7 +24,7 @@ export interface TransitionState {
   // 转场 CSS 名称
   name: string;
   // 转场时间
-  duration: number;
+  duration: number | string;
   // 自定义样式覆盖
   className?: string;
   // 自定义样式覆盖
@@ -35,6 +35,9 @@ export interface TransitionAction {
   type: TransitionActionType;
   payload?: Partial<TransitionState>;
 }
+
+const stringifyDuration = (duration: number | string) =>
+  typeof duration === 'number' ? `${duration}ms` : duration;
 
 export const transitionReducer: Reducer<TransitionState, TransitionAction> = (
   state,
@@ -58,11 +61,14 @@ export const transitionReducer: Reducer<TransitionState, TransitionAction> = (
         className: clsx(`${state.name}-enter`, `${state.name}-enter-active`),
         style: {
           display: 'block',
-          transitionDuration: `${state.duration}ms`,
+          transitionDuration: stringifyDuration(state.duration),
         },
       };
     case TransitionActionType.Entered:
-      return { ...state, className: clsx(`${state.name}-enter-done`) };
+      return {
+        ...state,
+        className: clsx(`${state.name}-enter-done`),
+      };
     case TransitionActionType.Leave:
       return {
         ...state,
@@ -72,7 +78,10 @@ export const transitionReducer: Reducer<TransitionState, TransitionAction> = (
       return {
         ...state,
         className: clsx(`${state.name}-leave`, `${state.name}-leave-active`),
-        style: { ...state.style, transitionDuration: `${state.duration}ms` },
+        style: {
+          ...state.style,
+          transitionDuration: stringifyDuration(state.duration),
+        },
       };
     case TransitionActionType.Left:
       return {

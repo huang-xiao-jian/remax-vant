@@ -3,7 +3,13 @@
   transition-property: background-color, transform;
 }
 
-.dance-enter-active {
+.dance-enter,
+.dance-leave-active {
   background-color: red;
   transform: rotate(-360deg) translate3d(-100%, -100%, 0);
+}
+
+.dance-enter-active {
+  background-color: blueviolet;
+  transform: none;
 }

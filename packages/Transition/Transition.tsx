@@ -20,7 +20,7 @@ interface NeutralTransitionProps {
   // 预设动画
   name: string;
   // 转场时间
-  duration: number;
+  duration: number | string;
 }
 
 interface ExogenousTransitionProps {
@@ -41,7 +41,7 @@ const DefaultTransitionProps: NeutralTransitionProps = {
 
 // TODO - appear transition not supported
 const Transition: FunctionComponent<TransitionProps> = (props) => {
-  const { className, visible, duration, name, children } = props;
+  const { className, visible, duration, name, style, children } = props;
   const [state, dispatch] = useReducer(transitionReducer, {
     name,
     duration,
@@ -52,6 +52,11 @@ const Transition: FunctionComponent<TransitionProps> = (props) => {
       display: visible ? '' : 'none',
     }),
   });
+  // 支持自定义 style 样式, className
+  const bindings = {
+    style: style ? { ...style, ...state.style } : state.style,
+    className: className ? `${state.className} ${className}` : state.className,
+  };
 
   // TODO - 事件触发不稳定，后续处理
   const onTransitionEnd = () => {
@@ -100,8 +105,8 @@ const Transition: FunctionComponent<TransitionProps> = (props) => {
 
   return (
     <View
-      style={state.style}
-      className={state.className}
+      style={bindings.style}
+      className={bindings.className}
       onTransitionEnd={onTransitionEnd}
     >
       {children}
