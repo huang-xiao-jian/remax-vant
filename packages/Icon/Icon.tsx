@@ -13,11 +13,11 @@ import './Icon.css';
 interface NeutralIconProps {
   dot: boolean;
   color: string;
-  size: string;
 }
 // 不包含默认值属性
 interface ExogenousIconProps {
   name: string;
+  size?: string;
   // info#info
   info?: string;
   // info#customStyle
@@ -33,7 +33,6 @@ type IconProps = NeutralIconProps & ExogenousIconProps;
 const DefaultIconProps: NeutralIconProps = {
   dot: false,
   color: 'inherit',
-  size: 'inherit',
 };
 
 // TODO - re-implement icon example page to be consistent with official page
