@@ -20,6 +20,8 @@ interface ExogenousOverlayProps {
   className?: string;
   // 自定义内嵌样式
   style?: CSSProperties;
+  // 事件绑定
+  onClick?: () => void;
 }
 
 type OverlayProps = NeutralOverlayProps & ExogenousOverlayProps;
@@ -32,7 +34,15 @@ const DefaultOverlayProps: NeutralOverlayProps = {
 };
 
 const Overlay: FunctionComponent<OverlayProps> = (props) => {
-  const { className, visible, duration, style, zIndex, children } = props;
+  const {
+    className,
+    visible,
+    duration,
+    style,
+    zIndex,
+    children,
+    onClick,
+  } = props;
   const classnames = {
     container: clsx(className, 'van-overlay'),
   };
@@ -46,6 +56,7 @@ const Overlay: FunctionComponent<OverlayProps> = (props) => {
       duration={duration}
       style={stylesheets.container}
       className={classnames.container}
+      onClick={onClick}
     >
       {children}
     </Transition>

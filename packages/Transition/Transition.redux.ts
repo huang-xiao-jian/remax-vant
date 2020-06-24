@@ -27,8 +27,8 @@ export interface TransitionState {
   duration: number | string;
   // 自定义样式覆盖
   className?: string;
-  // 自定义样式覆盖
-  style?: CSSProperties;
+  // 转场样式，仅包含 display, transition-property 属性
+  style: CSSProperties;
 }
 
 export interface TransitionAction {

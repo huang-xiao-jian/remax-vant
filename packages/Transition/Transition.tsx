@@ -28,6 +28,8 @@ interface ExogenousTransitionProps {
   className?: string;
   // 样式扩展
   style?: CSSProperties;
+  // 事件绑定
+  onClick?: () => void;
 }
 
 type TransitionProps = NeutralTransitionProps & ExogenousTransitionProps;
@@ -41,7 +43,16 @@ const DefaultTransitionProps: NeutralTransitionProps = {
 
 // TODO - appear transition not supported
 const Transition: FunctionComponent<TransitionProps> = (props) => {
-  const { className, visible, duration, name, style, children } = props;
+  const {
+    className,
+    visible,
+    duration,
+    name,
+    // 预设空对象，避免后续空对象判定
+    style = {},
+    children,
+    onClick,
+  } = props;
   const [state, dispatch] = useReducer(transitionReducer, {
     name,
     duration,
@@ -54,7 +65,15 @@ const Transition: FunctionComponent<TransitionProps> = (props) => {
   });
   // 支持自定义 style 样式, className
   const bindings = {
-    style: style ? { ...style, ...state.style } : state.style,
+    style: {
+      ...style,
+      ...state.style,
+      display:
+        // 非标准操作，子元素显示状态时优先使用传递的 display 值
+        style.display && state.style.display !== 'none'
+          ? style.display
+          : state.style.display,
+    },
     className: className ? `${state.className} ${className}` : state.className,
   };
 
@@ -107,6 +126,7 @@ const Transition: FunctionComponent<TransitionProps> = (props) => {
     <View
       style={bindings.style}
       className={bindings.className}
+      onClick={onClick}
       onTransitionEnd={onTransitionEnd}
     >
       {children}

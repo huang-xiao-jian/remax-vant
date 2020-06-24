@@ -73,7 +73,7 @@
 .van-slide-down-enter-active,
 .van-slide-left-enter-active,
 .van-slide-right-enter-active {
-  transform: none;
+  transform: translate3d(0, 0, 0);
 }
 
 .van-slide-up-enter-active,
