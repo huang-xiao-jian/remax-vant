@@ -35,8 +35,8 @@ $ yarn build
 - [x] Icon
 - [x] Image
 - [x] Layout
-- [ ] Popup
-- [ ] Transition
+- [x] Popup
+- [x] Transition - 独立实现，与原版几乎无任何关联
 
 ### 表单组件
 
@@ -46,7 +46,7 @@ $ yarn build
 - [ ] Field
 - [x] Picker - 与原版差异巨大，尚未确认是否影响依赖组件使用
 - [x] Radio
-- [ ] Rate
+- [x] Rate
 - [ ] Search
 - [x] Slider
 - [ ] Stepper
@@ -59,10 +59,10 @@ $ yarn build
 - [ ] Dialog
 - [ ] DropdownMenu
 - [x] Loading
-- [ ] Notify
-- [ ] Overlay
+- [x] Notify - 与原版实现有差异，参见新文档
+- [x] Overlay
 - [ ] SwipeCell
-- [ ] Toast
+- [x] Toast - 与原版实现有差异，参见新文档
 
 ### 展示组件
 
@@ -81,7 +81,7 @@ $ yarn build
 ### 导航组件
 
 - [x] Grid - 实现有较大差异，待确认是否保持一致
-- [ ] IndexBar
+- [x] IndexBar - 暂不支持 `sticky anchor`，后续处理
 - [x] Sidebar
 - [x] Navbar
 - [ ] Tab
@@ -162,3 +162,7 @@ export default withDefaultProps<ExogenousSliderProps, NeutralSliderProps>(
 
 - `id` `business-id` 目测与行为监控有关，后续处理
 - `wx://form-field` 如何使用或者如何替换？？？
+
+## remax-vant-cli
+
+- `create dry-run`
