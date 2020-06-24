@@ -176,7 +176,7 @@ class ToastManager {
 
   // 动态处理
   info(options: ToastParam) {
-    this.pipe({ ...parseOptions(options), type: 'te', visible: true });
+    this.pipe({ ...parseOptions(options), type: 'text', visible: true });
   }
 
   loading(options: ToastParam) {
@@ -192,11 +192,12 @@ class ToastManager {
   }
 
   clear() {
+    // 关闭在前，重置在后
+    this.queue.forEach((callback) => {
+      callback({ ...this.options, visible: false });
+    });
     // 重置内部参数
     this.options = { ...DefautlToastOptions };
-    this.queue.forEach((callback) => {
-      callback(this.options);
-    });
   }
 
   subscribe(callback: Subscriber) {
