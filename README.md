@@ -1,6 +1,6 @@
 # Remax Vant
 
-使用 Remax 移植 `vant-weapp` 组件库。
+使用 `Remax` 移植 `vant-weapp` 组件库。
 
 ## Getting Start
 
@@ -57,7 +57,7 @@ $ yarn build
 
 - [ ] ActionSheet
 - [ ] Dialog
-- [ ] DropdownMenu
+- [x] DropdownMenu
 - [x] Loading
 - [x] Notify - 与原版实现有差异，参见新文档
 - [x] Overlay
@@ -67,9 +67,9 @@ $ yarn build
 ### 展示组件
 
 - [ ] Circle
-- [ ] Collapse
+- [x] Collapse
 - [x] Divider
-- [ ] NoticeBar
+- [x] NoticeBar
 - [x] Panel - 实现有较大差异
 - [x] Progress
 - [x] Skeleton
@@ -113,7 +113,7 @@ remant create radio-group --ignore-page;
 使用 `pickStyle` 工具函数处理，推荐使用方式如下：
 
 ```typescript
-const stylesheets: Record<'container', CSSProperties> = {
+const stylesheets: Record<string, CSSProperties> = {
   container: pickStyle({
     maxWidth: maxWidth,
     minWidth: minWidth,
@@ -158,11 +158,16 @@ export default withDefaultProps<ExogenousSliderProps, NeutralSliderProps>(
 
 `remax-vant` 不包含小程序特定事件机制，与常规事件暴露相同，回调函数透传 `event`，无需额外包装。
 
+### 如何配置颜色属性？
+
+推荐使用 `css variables` 传递主题色，不建议跨层级 `inline style` 实现。
+
+### `vant-weapp` 自定义组件 `class` 移植？
+
+自定义组件理解为 `web component`，`class` 会正常附着容器上，移植时，使用额外 `view` 包装。
+
 ## 待处理
 
 - `id` `business-id` 目测与行为监控有关，后续处理
 - `wx://form-field` 如何使用或者如何替换？？？
-
-## remax-vant-cli
-
-- `create dry-run`
+- `dataset` 传递使用 `event.currentTarget.dataset` 使用，原因不明
