@@ -13,11 +13,6 @@ import pickStyle from '../tools/pick-style';
 import withDefaultProps from '../tools/with-default-props-advance';
 import './Slider.css';
 
-// @todo - expose unify custom event
-interface SliderEvent {
-  detail: number;
-}
-
 // 相对于调用者可选属性，底层可能为必须属性，一般为高阶组件传入
 // 默认值填充属性
 interface NeutralSliderProps {
@@ -38,7 +33,7 @@ interface ExogenousSliderProps {
   // 容器类名，用以覆盖内部
   className?: string;
   // 事件绑定
-  onChange?: (event: SliderEvent) => void;
+  onChange?: (value: number) => void;
 }
 
 interface DragState {
@@ -119,7 +114,7 @@ const Slider: FunctionComponent<SliderProps> = (props) => {
 
           // bubble up
           if (typeof onChange === 'function') {
-            onChange({ detail: next });
+            onChange(next);
           }
         });
     },
@@ -143,8 +138,6 @@ const Slider: FunctionComponent<SliderProps> = (props) => {
         // 状态标记，用以 transition 样式计算
         ref.current.status = 'DRAGING';
 
-        console.group('slider');
-        console.log(ref.current);
         // 滑动距离计算 value 变化
         const diff =
           ((event.touches[0].clientX - (ref.current.startX as number)) /
@@ -153,13 +146,9 @@ const Slider: FunctionComponent<SliderProps> = (props) => {
         const raw = (ref.current.startValue as number) + diff;
         const next = format(max, min, step, raw);
 
-        console.log(diff);
-        console.log(raw);
-        console.groupEnd();
-
         // bubble up
         if (typeof onChange === 'function') {
-          onChange({ detail: next });
+          onChange(next);
         }
       });
   };

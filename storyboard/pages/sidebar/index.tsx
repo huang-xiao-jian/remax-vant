@@ -8,8 +8,8 @@ import SidebarItem from '../../../packages/SidebarItem';
 
 export default () => {
   const [activeKey, setActiveKey] = React.useState(0);
-  const onChange = (event: { detail: number }) => {
-    setActiveKey(event.detail);
+  const onChange = (index: number) => {
+    setActiveKey(index);
   };
 
   return (

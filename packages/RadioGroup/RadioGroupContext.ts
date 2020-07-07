@@ -5,7 +5,7 @@ import { createContext } from 'react';
 interface RadioGroupContextAbstract {
   disabled: boolean;
   value?: string;
-  onChange?: (event: { detail: string }) => void;
+  onChange?: (name: string) => void;
 }
 
 // 默认值需要保持一致，以防万一

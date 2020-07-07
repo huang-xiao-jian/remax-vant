@@ -8,8 +8,8 @@ import TabbarItem from '../../../packages/TabbarItem';
 import Image from '../../../packages/Image';
 
 export default () => {
-  const [activeIndex, seteActiveIndex] = useState(0);
-  const [activeIndex1, seteActiveIndex1] = useState('home');
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex1, setActiveIndex1] = useState('home');
 
   const icons = {
     inactive: (
@@ -41,7 +41,7 @@ export default () => {
           className="demo-block__tabbar"
           active={activeIndex}
           safeAreaInsetBottom={false}
-          onChange={(event) => seteActiveIndex(event.detail)}
+          onChange={(index) => setActiveIndex(index as number)}
         >
           <TabbarItem icon="home-o">Home</TabbarItem>
           <TabbarItem icon="search">Search</TabbarItem>
@@ -55,7 +55,7 @@ export default () => {
           className="demo-block__tabbar"
           active={activeIndex1}
           safeAreaInsetBottom={false}
-          onChange={(event) => seteActiveIndex1(event.detail)}
+          onChange={(index) => setActiveIndex1(index as string)}
         >
           <TabbarItem name="home" icon="home-o">
             Home
@@ -77,7 +77,7 @@ export default () => {
           className="demo-block__tabbar"
           active={activeIndex}
           safeAreaInsetBottom={false}
-          onChange={(event) => seteActiveIndex(event.detail)}
+          onChange={(index) => setActiveIndex(index as number)}
         >
           <TabbarItem icon="home-o">Home</TabbarItem>
           <TabbarItem icon="search" dot>
@@ -97,7 +97,7 @@ export default () => {
           className="demo-block__tabbar"
           active={activeIndex}
           safeAreaInsetBottom={false}
-          onChange={(event) => seteActiveIndex(event.detail)}
+          onChange={(index) => setActiveIndex(index as number)}
         >
           <TabbarItem icon={renderHomeItemIcon}>Home</TabbarItem>
           <TabbarItem icon="search">Search</TabbarItem>
@@ -113,7 +113,7 @@ export default () => {
           activeColor="#07c160"
           inactiveColor="#000"
           safeAreaInsetBottom={false}
-          onChange={(event) => seteActiveIndex(event.detail)}
+          onChange={(index) => setActiveIndex(index as number)}
         >
           <TabbarItem icon="home-o">Home</TabbarItem>
           <TabbarItem icon="search">Search</TabbarItem>

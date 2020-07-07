@@ -17,7 +17,7 @@ interface SidebarProps {
   // 容器类名，用以覆盖内部
   className?: string;
   // 事件回调
-  onChange: (event: { detail: number }) => void;
+  onChange: (index: number) => void;
 }
 
 const Sidebar: FunctionComponent<SidebarProps> = (props) => {
@@ -30,7 +30,7 @@ const Sidebar: FunctionComponent<SidebarProps> = (props) => {
       ? child
       : cloneElement(child, {
           selected: index === activeKey,
-          onClick: () => onChange({ detail: index }),
+          onClick: () => onChange(index),
         })
   );
 

@@ -70,17 +70,17 @@ const TreeSelect: FunctionComponent<TreeSelectProps> = (props) => {
   const { children = [] } = items[mainActiveIndex] || {};
 
   // 事件回调
-  const onClickNavWrap = (event: { detail: number }) => {
-    const nav = items[event.detail];
+  const onClickNavWrap = (index: number) => {
+    const nav = items[index];
 
     if (!nav.disabled) {
-      onClickNav(event.detail);
+      onClickNav(index);
     }
   };
 
-  const onClickItemWrap = (event: { detail: TreeSelectChild }) => {
-    if (!event.detail.disabled) {
-      onClickItem(event.detail.id);
+  const onClickItemWrap = (item: TreeSelectChild) => {
+    if (!item.disabled) {
+      onClickItem(item.id);
     }
   };
 
@@ -116,7 +116,7 @@ const TreeSelect: FunctionComponent<TreeSelectProps> = (props) => {
             <View
               key={child.id}
               className={classNameItem}
-              onClick={() => onClickItemWrap({ detail: child })}
+              onClick={() => onClickItemWrap(child)}
             >
               {child.text}
               <Select in={active}>

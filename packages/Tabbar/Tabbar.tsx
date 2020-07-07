@@ -32,7 +32,7 @@ interface ExogenousTabbarProps {
   // 容器类名，用以覆盖内部
   className?: string;
   // trigger on every item click
-  onChange: (event: { detail: number }) => void;
+  onChange: (index: number | string) => void;
 }
 
 type TabbarProps = NeutralTabbarProps & ExogenousTabbarProps;
@@ -81,7 +81,7 @@ const Tabbar: FunctionComponent<TabbarProps> = (props) => {
       ? child
       : cloneElement(child, {
           active: active === child.props.name || active === index,
-          onClick: () => onChange({ detail: child.props.name || index }),
+          onClick: () => onChange(child.props.name || index),
         })
   );
 

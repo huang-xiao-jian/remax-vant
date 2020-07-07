@@ -13,7 +13,7 @@ interface NeutralRadioGroupProps {
 interface ExogenousRadioGroupProps {
   name?: string;
   value: string;
-  onChange?: (event: { detail: string }) => void;
+  onChange?: (name: string) => void;
 }
 
 type RadioGroupProps = NeutralRadioGroupProps & ExogenousRadioGroupProps;

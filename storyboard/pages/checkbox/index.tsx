@@ -13,13 +13,11 @@ import { CheckboxChangeEvent } from '../../../packages/CheckboxGroup/CheckboxGro
 export default () => {
   const [value, setValue] = useState(false);
   const onChangeSingle = (event: CheckboxChangeEvent) => {
-    setValue(event.detail.status);
+    setValue(event.status);
   };
   const [value1, setValue1] = useState<string[]>([]);
   const onChangeGroup = (event: CheckboxChangeEvent) => {
-    const {
-      detail: { name, status },
-    } = event;
+    const { name, status } = event;
     const next = status
       ? value1.concat(name)
       : value1.filter((item) => item !== name);

@@ -31,7 +31,7 @@ interface ExogenousStepsProps {
   // 容器类名，用以覆盖内部
   className?: string;
   // 事件绑定
-  onClickStep?: (event: { detail: number }) => void;
+  onClickStep?: (step: number) => void;
 }
 
 type StepsProps = NeutralStepsProps & ExogenousStepsProps;
@@ -98,7 +98,7 @@ const Steps: FunctionComponent<StepsProps> = (props) => {
     // 事件绑定
     const onClick = () => {
       if (typeof onClickStep === 'function') {
-        onClickStep({ detail: index });
+        onClickStep(index);
       }
     };
 

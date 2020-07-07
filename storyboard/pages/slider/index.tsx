@@ -13,8 +13,8 @@ export default () => {
     range: 0,
     customStyle: 20,
   });
-  const onChangeFactory = (name: string) => (event: { detail: number }) => {
-    setState((acc) => ({ ...acc, [name]: event.detail }));
+  const onChangeFactory = (name: string) => (value: number) => {
+    setState((acc) => ({ ...acc, [name]: value }));
   };
   const customButtonStyle: CSSProperties = {
     width: '26px',

@@ -77,10 +77,7 @@ const Radio: FunctionComponent<RadioProps> = (props) => {
       'van-radio__icon--checked': name === value,
     }),
   };
-  const stylesheets: Record<
-    'label' | 'iconWrap' | 'iconParent' | 'icon',
-    CSSProperties
-  > = {
+  const stylesheets: Record<string, CSSProperties> = {
     label: {
       fontSize: iconSize,
     },
@@ -102,14 +99,14 @@ const Radio: FunctionComponent<RadioProps> = (props) => {
   const onChangeWrap = () => {
     if (!disabled) {
       if (typeof onChange === 'function') {
-        onChange({ detail: name });
+        onChange(name);
       }
     }
   };
   const onClickLabelWrap = () => {
     if (!disabled && !labelDisabled) {
       if (typeof onChange === 'function') {
-        onChange({ detail: name });
+        onChange(name);
       }
     }
   };

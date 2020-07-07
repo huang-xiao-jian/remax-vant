@@ -34,7 +34,7 @@ export default () => {
         <Steps
           steps={steps}
           active={active}
-          onClickStep={(event) => setActive(event.detail)}
+          onClickStep={(step) => setActive(step)}
         />
       </View>
       <Text className="demo-block__title">竖向步骤条</Text>

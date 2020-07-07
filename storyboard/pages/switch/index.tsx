@@ -7,8 +7,8 @@ import Switch from '../../../packages/Switch';
 
 export default () => {
   const [checked, setChecked] = useState(true);
-  const onChange = () => {
-    setChecked((prev) => !prev);
+  const onChange = (value: boolean) => {
+    setChecked(value);
   };
 
   return (
@@ -32,6 +32,7 @@ export default () => {
       <View className="demo-block__content">
         <Switch checked={checked} size="24px" onChange={onChange} />
       </View>
+
       <Text className="demo-block__title">自定义颜色</Text>
       <View className="demo-block__content">
         <Switch

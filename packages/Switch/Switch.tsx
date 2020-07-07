@@ -11,14 +11,14 @@ import './Switch.css';
 
 // 默认值填充属性
 interface NeutralSwitchProps {
-  checked: any;
+  checked: boolean;
   loading: boolean;
   disabled: boolean;
   size: string;
   activeColor: string;
   inactiveColor: string;
-  activeValue: any;
-  inactiveValue: any;
+  activeValue: boolean;
+  inactiveValue: boolean;
 }
 
 interface ExogenousSwitchProps {
@@ -26,7 +26,7 @@ interface ExogenousSwitchProps {
   // 容器类名，用以覆盖内部
   className?: string;
   // 事件绑定
-  onChange?: (event: any) => void;
+  onChange?: (value: boolean) => void;
 }
 
 type SwitchProps = NeutralSwitchProps & ExogenousSwitchProps;
@@ -71,7 +71,7 @@ const Switch: FunctionComponent<SwitchProps> = (props) => {
       const value = checked === activeValue ? inactiveValue : activeValue;
 
       if (typeof onChange === 'function') {
-        onChange({ detail: value });
+        onChange(value);
       }
     }
   };

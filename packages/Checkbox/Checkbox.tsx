@@ -111,10 +111,8 @@ const Checkbox: FunctionComponent<CheckboxProps> = (props) => {
     if (!disabled) {
       if (typeof onChangeWrap === 'function') {
         onChangeWrap({
-          detail: {
-            name,
-            status: !checked,
-          },
+          name,
+          status: !checked,
         });
       }
     }
@@ -123,10 +121,8 @@ const Checkbox: FunctionComponent<CheckboxProps> = (props) => {
     if (!disabled && !labelDisabled) {
       if (typeof onChangeWrap === 'function') {
         onChangeWrap({
-          detail: {
-            name,
-            status: !checked,
-          },
+          name,
+          status: !checked,
         });
       }
     }

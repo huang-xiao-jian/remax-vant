@@ -10,8 +10,8 @@ import Cell from '../../../packages/Cell';
 
 export default () => {
   const [value, setValue] = useState('home');
-  const onChange = (event: any) => {
-    setValue(event.detail);
+  const onChange = (name: string) => {
+    setValue(name);
   };
 
   return (

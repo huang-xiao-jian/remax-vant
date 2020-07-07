@@ -3,7 +3,7 @@ import React, { FunctionComponent } from 'react';
 // internal
 import withDefaultProps from '../tools/with-default-props-advance';
 import CheckboxGroupContext, {
-  CheckboxChangeEventDetail,
+  CheckboxChangeEvent,
 } from './CheckboxGroupContext';
 import './CheckboxGroup.css';
 
@@ -16,7 +16,7 @@ interface ExogenousCheckboxGroupProps {
   name?: string;
   value: string[];
   max?: number;
-  onChange?: (event: { detail: CheckboxChangeEventDetail }) => void;
+  onChange?: (event: CheckboxChangeEvent) => void;
 }
 
 type RadioGroupProps = NeutralCheckboxGroupProps & ExogenousCheckboxGroupProps;

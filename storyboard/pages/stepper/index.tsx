@@ -8,8 +8,8 @@ import Stepper from '../../../packages/Stepper';
 
 export default () => {
   const [value, setValue] = useState(5);
-  const onChange = (event: any) => {
-    setValue(event.detail);
+  const onChange = (event: number) => {
+    setValue(event);
   };
 
   return (

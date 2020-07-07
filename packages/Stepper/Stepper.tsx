@@ -31,7 +31,7 @@ interface ExogenousStepperProps {
   value: number;
   // 容器类名，用以覆盖内部
   className?: string;
-  onChange?: (event: { detail: number }) => void;
+  onChange?: (value: number) => void;
 }
 
 type StepperProps = NeutralStepperProps & ExogenousStepperProps;
@@ -114,9 +114,7 @@ const Stepper: FunctionComponent<StepperProps> = (props) => {
     const next = Math.max(Math.min(max, raw), min);
 
     if (typeof onChange === 'function') {
-      onChange({
-        detail: next,
-      });
+      onChange(next);
     }
   };
 
