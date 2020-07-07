@@ -9,7 +9,6 @@ import clsx from 'clsx';
 import { View } from 'remax/wechat';
 // internal
 import uuid from '../tools/uuid';
-import pickStyle from '../tools/pick-style';
 import withDefaultProps from '../tools/with-default-props-advance';
 
 import { DropdownMenuUnitEvent } from './DropdownMenu.constant';

@@ -13,7 +13,6 @@ import Popup from '../Popup';
 import Cell from '../Cell';
 import Icon from '../Icon';
 import { Select } from '../tools/Switch';
-import pickStyle from '../tools/pick-style';
 import withDefaultProps from '../tools/with-default-props-advance';
 import {
   DropdownItemOption,

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // packages
 import React from 'react';
 import { View, Text } from 'remax/wechat';

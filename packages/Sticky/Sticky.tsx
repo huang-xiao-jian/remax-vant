@@ -3,10 +3,8 @@ import React, {
   FunctionComponent,
   CSSProperties,
   useEffect,
-  useReducer,
   useRef,
   useState,
-  useCallback,
 } from 'react';
 import clsx from 'clsx';
 import { View } from 'remax/wechat';

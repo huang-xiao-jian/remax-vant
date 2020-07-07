@@ -93,8 +93,8 @@ const Skeleton: FunctionComponent<SkeletonProps> = (props) => {
               <View className="van-skeleton__title" style={stylesheets.title} />
             </Select>
             {elements.map((element, index) => (
-              // eslint-disable-next-line react/no-array-index-key
               <View
+                // eslint-disable-next-line react/no-array-index-key
                 key={index}
                 style={element.style}
                 className={element.className}

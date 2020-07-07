@@ -20,5 +20,7 @@ globals:
   Atomics: readonly
   SharedArrayBuffer: readonly
 rules:
+  # 临时关闭
+  'explicit-module-boundary-types': off
   'react/prop-types': off
   '@typescript-eslint/camelcase': off

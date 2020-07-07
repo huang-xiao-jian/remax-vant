@@ -74,7 +74,6 @@ const Stepper: FunctionComponent<StepperProps> = (props) => {
     disabled,
     disabledPlus,
     disableMinus,
-    decimalLength,
     max,
     min,
     onChange,

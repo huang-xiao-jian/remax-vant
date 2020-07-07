@@ -4,13 +4,6 @@ import { View, Text } from 'remax/wechat';
 
 // internal
 import Button from '../../../packages/Button';
-import Icon from '../../../packages/Icon';
-
-// icons
-const icons = {
-  builtIn: <Icon name="star-o" />,
-  external: <Icon name="https://img.yzcdn.cn/vant/logo.png" />,
-};
 
 export default () => {
   return (

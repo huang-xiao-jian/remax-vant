@@ -3,12 +3,9 @@ import React, {
   FunctionComponent,
   CSSProperties,
   useCallback,
-  useState,
-  ComponentType,
   useRef,
 } from 'react';
 import clsx from 'clsx';
-import { usePageInstance } from 'remax';
 import { View } from 'remax/wechat';
 // internal
 import { Switch, Case } from '../tools/Switch';

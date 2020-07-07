@@ -1,5 +1,5 @@
 // packages
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text } from 'remax/wechat';
 
 // internal

@@ -8,6 +8,7 @@ import Icon from '../../../packages/Icon';
 
 export default () => {
   const onClickFactory = (direction: 'left' | 'right') => () => {
+    /* eslint-disable no-console */
     console.group('Navbar');
     console.log(direction);
     console.groupEnd();

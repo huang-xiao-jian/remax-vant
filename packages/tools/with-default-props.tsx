@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 // packages
 import React, { ComponentType, PropsWithChildren } from 'react';
 

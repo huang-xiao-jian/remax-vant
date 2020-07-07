@@ -1,7 +1,6 @@
 // packages
 import React, { FunctionComponent, CSSProperties } from 'react';
 import clsx from 'clsx';
-import { View } from 'remax/wechat';
 // internal
 import Transition from '../Transition';
 import withDefaultProps from '../tools/with-default-props-advance';

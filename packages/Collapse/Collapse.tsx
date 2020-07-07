@@ -1,10 +1,5 @@
 // packages
-import React, {
-  FunctionComponent,
-  useState,
-  useEffect,
-  useCallback,
-} from 'react';
+import React, { FunctionComponent } from 'react';
 import clsx from 'clsx';
 import { View } from 'remax/wechat';
 // internal
