@@ -52,10 +52,7 @@ interface ExogenousNoticeBarProps {
 }
 
 type NoticeBarProps = NeutralNoticeBarProps & ExogenousNoticeBarProps;
-type NoticeBarRects = [
-  WechatMiniprogram.BoundingClientRectCallbackResult,
-  WechatMiniprogram.BoundingClientRectCallbackResult
-];
+type NoticeBarRects = [BoundingClientRectResult, BoundingClientRectResult];
 
 const DefaultNoticeBarProps: NeutralNoticeBarProps = {
   mode: '',

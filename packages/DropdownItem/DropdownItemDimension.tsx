@@ -66,7 +66,7 @@ const DropdownItemDimension: FunctionComponent<DropdownItemDimensionProps> = (
     wx.createSelectorQuery()
       .select(`#${id}`)
       .boundingClientRect()
-      .exec(([rect]: [WechatMiniprogram.BoundingClientRectCallbackResult]) => {
+      .exec(([rect]: [BoundingClientRectResult]) => {
         const { bottom, top } = rect;
         const { windowHeight } = wx.getSystemInfoSync();
         const patch =

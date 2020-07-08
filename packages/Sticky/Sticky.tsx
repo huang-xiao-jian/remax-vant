@@ -92,7 +92,7 @@ const Sticky: FunctionComponent<StickyProps> = (props) => {
     wx.createSelectorQuery()
       .select('#van-sticky')
       .boundingClientRect()
-      .exec(([rect]: [WechatMiniprogram.BoundingClientRectResult]) => {
+      .exec(([rect]: [BoundingClientRectResult]) => {
         if (rect.top < offsetTop) {
           setState((acc) => ({
             ...acc,
@@ -116,8 +116,8 @@ const Sticky: FunctionComponent<StickyProps> = (props) => {
 
     query.exec(
       ([element, container]: [
-        WechatMiniprogram.BoundingClientRectResult,
-        WechatMiniprogram.BoundingClientRectResult
+        BoundingClientRectResult,
+        BoundingClientRectResult
       ]) => {
         // can't understand condition meaning now
         if (offsetTop + element.height > container.height + container.top) {

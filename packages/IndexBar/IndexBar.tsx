@@ -88,7 +88,7 @@ const IndexBar: FunctionComponent<IndexBarProps> = (props) => {
     wx.createSelectorQuery()
       .select('.van-index-bar__sidebar')
       .boundingClientRect()
-      .exec(([rect]: [WechatMiniprogram.BoundingClientRectResult]) => {
+      .exec(([rect]: [BoundingClientRectResult]) => {
         sidebar.current.height = rect.height;
         sidebar.current.top = rect.top;
       });

@@ -106,7 +106,7 @@ const Slider: FunctionComponent<SliderProps> = (props) => {
       wx.createSelectorQuery()
         .select('#van-slider')
         .boundingClientRect()
-        .exec(([bounding]: [WechatMiniprogram.BoundingClientRectResult]) => {
+        .exec(([bounding]: [BoundingClientRectResult]) => {
           const raw =
             ((event.detail.x - bounding.left) / bounding.width) * (max - min) +
             min;
@@ -134,7 +134,7 @@ const Slider: FunctionComponent<SliderProps> = (props) => {
     wx.createSelectorQuery()
       .select('#van-slider')
       .boundingClientRect()
-      .exec(([bounding]: [WechatMiniprogram.BoundingClientRectResult]) => {
+      .exec(([bounding]: [BoundingClientRectResult]) => {
         // 状态标记，用以 transition 样式计算
         ref.current.status = 'DRAGING';
 

@@ -42,7 +42,7 @@ const IndexAnchor: FunctionComponent<IndexAnchorProps> = (props) => {
       wx.createSelectorQuery()
         .select(`#${id}`)
         .boundingClientRect()
-        .exec(([rect]: [WechatMiniprogram.BoundingClientRectResult]) => {
+        .exec(([rect]: [BoundingClientRectResult]) => {
           wx.pageScrollTo({
             // duration: 0,
             scrollTop: scrollTop + rect.top,

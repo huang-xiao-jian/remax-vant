@@ -117,21 +117,19 @@ const Rate: FunctionComponent<RateProps> = (props) => {
     wx.createSelectorQuery()
       .selectAll(`#${id} .van-rate__icon`)
       .boundingClientRect()
-      .exec(
-        ([rects]: [WechatMiniprogram.BoundingClientRectCallbackResult[]]) => {
-          // 半星覆盖策略略有复杂，需要保障半星有限匹配
-          const currentTarget = rects
-            .sort((prev, current) => prev.right - current.right)
-            .find((rect) => clientX >= rect.left && clientX <= rect.right);
+      .exec(([rects]: [BoundingClientRectResult[]]) => {
+        // 半星覆盖策略略有复杂，需要保障半星有限匹配
+        const currentTarget = rects
+          .sort((prev, current) => prev.right - current.right)
+          .find((rect) => clientX >= rect.left && clientX <= rect.right);
 
-          // rect 结果包含 dataset，因而此处可以临时替代
-          if (currentTarget) {
-            onSelect({
-              currentTarget,
-            });
-          }
+        // rect 结果包含 dataset，因而此处可以临时替代
+        if (currentTarget) {
+          onSelect({
+            currentTarget,
+          });
         }
-      );
+      });
   };
 
   return (
