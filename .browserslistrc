@@ -1,0 +1,5 @@
+# Browsers should support css-variables
+# optimize compatibility later
+
+IOS >= 10
+Android >= 5

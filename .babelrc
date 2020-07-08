@@ -1,0 +1,10 @@
+{
+  "presets": [
+    [
+      "remax",
+      {
+        "targets": ["IOS >= 10", "Android >= 5"]
+      }
+    ]
+  ]
+}

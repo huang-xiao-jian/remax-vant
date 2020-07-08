@@ -69,11 +69,7 @@ build
 *.tar.gz
 
 # Compilation
-# postcss modules compile
-/src/**/*.pcss.json
-/lib
-/es
-/bundle
-/native
-.awcache
+lib
+
+# Development
 storyboard/app.config.ts
