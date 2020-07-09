@@ -35,13 +35,20 @@ const DefaultIconProps: NeutralIconProps = {
   color: 'inherit',
 };
 
-// TODO - re-implement icon example page to be consistent with official page
-
 // Changes:
 //  1. remove class prefix;
 //  2. drop inline style value number support;
 const Icon: FunctionComponent<IconProps> = (props) => {
-  const { className, dot, info, style, name, color, size, onClick } = props;
+  const {
+    className,
+    dot,
+    info,
+    style = {},
+    name,
+    color,
+    size,
+    onClick,
+  } = props;
   const external = name.indexOf('/') !== -1;
   const classnames = {
     container: clsx(className, 'van-icon', {
@@ -49,21 +56,26 @@ const Icon: FunctionComponent<IconProps> = (props) => {
       [`van-icon-${name}`]: !external,
     }),
   };
-  const stylesheet: CSSProperties = pickStyle(
-    // shortcut method, use assign method resolve undefined style property
-    // eslint-disable-next-line prefer-object-spread
-    Object.assign({}, style, {
-      color,
-      fontSize: size,
-    })
-  );
+  const stylesheets: Record<string, CSSProperties> = {
+    container: pickStyle({
+      ...style,
+      ...{
+        color,
+        fontSize: size,
+      },
+    }),
+  };
   const visibility = {
     info: !!info || dot,
     image: external,
   };
 
   return (
-    <View style={stylesheet} className={classnames.container} onClick={onClick}>
+    <View
+      style={stylesheets.container}
+      className={classnames.container}
+      onClick={onClick}
+    >
       <Select in={visibility.info}>
         <Info className="van-icon__info" dot={dot} info={info} />
       </Select>

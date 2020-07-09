@@ -91,7 +91,7 @@ const Checkbox: FunctionComponent<CheckboxProps> = (props) => {
       'van-checkbox__icon--checked': checked,
     }),
   };
-  const stylesheet: Record<'iconParent' | 'icon', CSSProperties> = {
+  const stylesheets: Record<string, CSSProperties> = {
     iconParent: pickStyle({
       fontSize: iconSize,
       borderColor: color,
@@ -131,11 +131,11 @@ const Checkbox: FunctionComponent<CheckboxProps> = (props) => {
   return (
     <View className={classnames.container}>
       <View className="van-checkbox__icon-wrap" onClick={onClick}>
-        <View className={classnames.iconParent} style={stylesheet.iconParent}>
+        <View className={classnames.iconParent} style={stylesheets.iconParent}>
           <Switch>
             <Case in={visibility.customIcon}>{icon}</Case>
             <Case default>
-              <Icon name="success" size=".8em" style={stylesheet.icon} />
+              <Icon name="success" size=".8em" style={stylesheets.icon} />
             </Case>
           </Switch>
         </View>

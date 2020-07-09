@@ -109,12 +109,14 @@ const Image: FunctionComponent<ImageProps> = (props) => {
       'van-image--round': round,
     }),
   };
-  const stylesheet: CSSProperties = pickStyle({
-    width,
-    height,
-    borderRadius: radius,
-    overflow: radius && 'hidden',
-  });
+  const stylesheets: Record<string, CSSProperties> = {
+    container: pickStyle({
+      width,
+      height,
+      borderRadius: radius,
+      overflow: radius && 'hidden',
+    }),
+  };
   const [state, dispatch] = useReducer(
     (states: ImageState, action: ImageActions) => {
       switch (action.type) {
@@ -168,14 +170,18 @@ const Image: FunctionComponent<ImageProps> = (props) => {
     });
   }, [src]);
 
-  const visibility: Record<'image' | 'loading' | 'error', boolean> = {
+  const visibility: Record<string, boolean> = {
     image: !state.error,
     loading: state.loading && showLoading,
     error: state.error && showError,
   };
 
   return (
-    <View style={stylesheet} className={classnames.container} onClick={onClick}>
+    <View
+      style={stylesheets.container}
+      className={classnames.container}
+      onClick={onClick}
+    >
       <Select in={visibility.image}>
         <WechatImage
           className="van-image__img"

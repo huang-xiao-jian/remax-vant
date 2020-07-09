@@ -58,7 +58,7 @@ const GridItem: FunctionComponent<GridItemProps> = (props) => {
       }
     ),
   };
-  const style: Record<'view' | 'content', CSSProperties> = {
+  const style: Record<string, CSSProperties> = {
     view: pickStyle({
       width: `${100 / (columnNum as number)}%`,
       paddingTop: square ? `${100 / (columnNum as number)}%` : undefined,

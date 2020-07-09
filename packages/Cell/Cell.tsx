@@ -78,7 +78,7 @@ const Cell: FunctionComponent<CellProps> = (props) => {
     }),
     hover: clsx(hoverClassName, 'van-cell--hover'),
   };
-  const stylesheets: Record<'title', CSSProperties> = {
+  const stylesheets: Record<string, CSSProperties> = {
     title: pickStyle({
       maxWidth: titleWidth,
       minWidth: titleWidth,

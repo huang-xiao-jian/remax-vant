@@ -51,7 +51,7 @@ const SidebarItem: FunctionComponent<SidebarItemProps> = (props) => {
     // original code
     info: info || dot,
   };
-  const stylesheets: Record<'info', CSSProperties> = {
+  const stylesheets: Record<string, CSSProperties> = {
     info: {
       right: '4px;',
     },
