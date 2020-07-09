@@ -85,7 +85,7 @@ const Button: FunctionComponent<ButtonProps> = (props) => {
     hairline,
     color,
     icon,
-    style,
+    style = {},
     loadingText,
     children,
     dataset,
@@ -114,9 +114,8 @@ const Button: FunctionComponent<ButtonProps> = (props) => {
     ),
     hover: clsx(hoverClassName, 'van-button--active'),
   };
-  const stylesheets: Record<'container' | 'icon', CSSProperties> = {
-    // eslint-disable-next-line prefer-object-spread
-    container: Object.assign({}, style, deriveStyle(color, plain)),
+  const stylesheets: Record<string, CSSProperties> = {
+    container: { ...style, ...deriveStyle(color, plain) },
     icon: { lineHeight: 'inherit' },
   };
   // 事件绑定

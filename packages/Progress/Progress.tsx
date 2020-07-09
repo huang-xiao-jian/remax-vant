@@ -54,7 +54,7 @@ const Progress: FunctionComponent<ProgressProps> = (props) => {
     container: clsx(className, 'van-progress'),
     tracker: 'van-progress__portion',
   };
-  const style: Record<'container' | 'tracker' | 'censor', CSSProperties> = {
+  const style: Record<string, CSSProperties> = {
     container: {
       height: strokeWidth,
       background: trackColor,

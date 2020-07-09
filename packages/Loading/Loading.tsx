@@ -52,7 +52,7 @@ const Loading: FunctionComponent<LoadingProps> = (props) => {
       'van-loading__spinner--circular': type === 'circular',
     }),
   };
-  const stylesheets: Record<'spinner' | 'text', CSSProperties> = {
+  const stylesheets: Record<string, CSSProperties> = {
     spinner: pickStyle({
       color,
       width: size,

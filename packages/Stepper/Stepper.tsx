@@ -80,7 +80,7 @@ const Stepper: FunctionComponent<StepperProps> = (props) => {
   } = props;
   const type = integer ? 'number' : 'digit';
 
-  const stylesheets: Record<'button', CSSProperties> = {
+  const stylesheets: Record<string, CSSProperties> = {
     button: pickStyle({
       width: buttonSize,
       height: buttonSize,

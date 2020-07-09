@@ -73,7 +73,7 @@ const Steps: FunctionComponent<StepsProps> = (props) => {
     const status =
       // eslint-disable-next-line no-nested-ternary
       index < active ? 'finish' : index === active ? 'process' : 'inactive';
-    const stylesheets: Record<'container' | 'title' | 'line', CSSProperties> = {
+    const stylesheets: Record<string, CSSProperties> = {
       container: pickStyle({
         color: status === 'inactive' ? inactiveColor : undefined,
       }),

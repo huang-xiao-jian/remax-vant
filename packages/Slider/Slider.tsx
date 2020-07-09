@@ -88,7 +88,7 @@ const Slider: FunctionComponent<SliderProps> = (props) => {
       'van-slider--disabled': disabled,
     }),
   };
-  const stylesheets: Record<'container' | 'bar', CSSProperties> = {
+  const stylesheets: Record<string, CSSProperties> = {
     // for outer view container
     container: pickStyle({
       backgroundColor: inactiveColor,
