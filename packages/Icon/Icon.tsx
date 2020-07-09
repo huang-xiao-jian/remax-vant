@@ -59,10 +59,8 @@ const Icon: FunctionComponent<IconProps> = (props) => {
   const stylesheets: Record<string, CSSProperties> = {
     container: pickStyle({
       ...style,
-      ...{
-        color,
-        fontSize: size,
-      },
+      color,
+      fontSize: size,
     }),
   };
   const visibility = {
