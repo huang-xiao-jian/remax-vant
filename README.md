@@ -66,7 +66,7 @@ $ yarn build
 
 ### 展示组件
 
-- [ ] Circle
+- [x] Circle
 - [x] Collapse
 - [x] Divider
 - [x] NoticeBar
