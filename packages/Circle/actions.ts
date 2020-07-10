@@ -6,7 +6,7 @@
 export type CircleColor = string | Record<string, string>;
 
 export const format = (rate: number): number =>
-  Math.min(Math.max(rate, 0), 100);
+  Math.round(Math.min(Math.max(rate, 0), 100));
 
 export const calcStrokeStyle = (
   context: CanvasRenderingContext2D,
