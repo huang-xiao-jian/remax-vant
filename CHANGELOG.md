@@ -1,3 +1,9 @@
+# [1.1.0](https://github.com/huang-xiao-jian/remax-vant/compare/v1.0.0...v1.1.0) (2020-07-10)
+
+### Features
+
+- ✨ implement vant-weapp circle component ([#2](https://github.com/huang-xiao-jian/remax-vant/issues/2)) ([863f5f7](https://github.com/huang-xiao-jian/remax-vant/commit/863f5f7a6abf56010e2e74347bc0739864868bb8))
+
 # 1.0.0 (2020-07-08)
 
 ### Bug Fixes
