@@ -49,7 +49,6 @@ export default () => {
       <View className="demo-block__content">
         <Circle value={value} text={text} size={120} />
       </View>
-
       <View className="demo-block__content">
         <Button
           type="info"
