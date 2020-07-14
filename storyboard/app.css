@@ -2,6 +2,8 @@ page {
   background-color: #f7f8fa;
 }
 
+@import '../packages/styles/common.css';
+
 .demo-block {
   width: 100%;
 }
