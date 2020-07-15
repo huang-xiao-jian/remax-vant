@@ -7,7 +7,7 @@
     "esModuleInterop": true,
     "jsx": "preserve",
     "rootDir": "packages",
-    "baseUrl": "./",
+    "baseUrl": "./packages",
     "paths": {},
     "lib": ["DOM", "ES2015"]
   },
