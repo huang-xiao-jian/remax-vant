@@ -124,3 +124,7 @@ page {
 .demo-block__checkbox {
   margin-top: 6px;
 }
+
+.demo-block__card {
+  --card-background-color: #fff;
+}
