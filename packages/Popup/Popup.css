@@ -105,6 +105,22 @@
 
 /* transition，与原始实现脱钩 */
 /* 使用 van-popup 前缀，避免非必要冲突 */
+.van-popup-scale-enter,
+.van-popup-scale-leave-active {
+  transform: translate3d(-50%, -50%, 0) scale(0.7);
+  opacity: 0;
+}
+
+.van-popup-scale-enter-active {
+  transform: translate3d(-50%, -50%, 0) scale(1);
+  opacity: 1;
+}
+
+.van-popup-scale-enter-active,
+.van-popup-scale-leave-active {
+  transition-property: opacity, transform;
+}
+
 .van-popup-center-enter,
 .van-popup-center-leave-active {
   opacity: 0;

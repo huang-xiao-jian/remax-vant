@@ -1,7 +1,6 @@
 // packages
 import React, { FunctionComponent, CSSProperties } from 'react';
 import clsx from 'clsx';
-import { View } from 'remax/wechat';
 // internal
 import Overlay from '../Overlay';
 import Transition from '../Transition';
@@ -16,6 +15,7 @@ interface NeutralPopupProps {
   zIndex: number;
   overlay: boolean;
   position: 'top' | 'right' | 'bottom' | 'left' | 'center';
+  transition: 'fade' | 'scale';
   duration: number;
   round: boolean;
   closable: boolean;
@@ -44,6 +44,7 @@ const DefaultPopupProps: NeutralPopupProps = {
   zIndex: 100,
   overlay: true,
   position: 'center',
+  transition: 'fade',
   duration: 300,
   round: false,
   closable: false,
@@ -61,6 +62,7 @@ const Popup: FunctionComponent<PopupProps> = (props) => {
     zIndex,
     duration,
     position,
+    transition,
     overlayStyle,
     round,
     safeAreaInsetBottom,
@@ -87,6 +89,8 @@ const Popup: FunctionComponent<PopupProps> = (props) => {
   const stylesheets: Record<string, CSSProperties> = {
     transition: style ? { ...style, zIndex } : { zIndex },
   };
+  const transitionName =
+    transition === 'fade' ? `van-popup-${position}` : 'van-popup-scale';
 
   return (
     <>
@@ -98,7 +102,7 @@ const Popup: FunctionComponent<PopupProps> = (props) => {
         onClick={onClickOverlay}
       />
       <Transition
-        name={`van-popup-${position}`}
+        name={transitionName}
         style={stylesheets.transition}
         visible={visible}
         duration={duration}
