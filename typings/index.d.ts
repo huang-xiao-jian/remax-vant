@@ -15,3 +15,14 @@ declare interface BoundingClientRectResult {
   /** 宽度 */
   width: number;
 }
+
+declare interface TouchPointMini {
+  clientX: number;
+  clientY: number;
+  pageX: number;
+  pageY: number;
+}
+
+declare interface TouchEventMini {
+  touches: TouchPointMini[];
+}
