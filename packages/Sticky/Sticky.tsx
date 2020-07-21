@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useRef,
   useState,
+  useMemo,
 } from 'react';
 import clsx from 'clsx';
 import { View } from 'remax/wechat';
@@ -12,6 +13,7 @@ import { usePageEvent } from 'remax/macro';
 // internal
 import withDefaultProps from '../tools/with-default-props-advance';
 import pickStyle from '../tools/pick-style';
+import uuid from '../tools/uuid';
 import './Sticky.css';
 
 // 默认值填充属性
@@ -54,6 +56,7 @@ const Sticky: FunctionComponent<StickyProps> = (props) => {
     zIndex,
     children,
   } = props;
+  const id = useMemo(() => uuid(), []);
   const [state, setState] = useState<StickyState>({
     height: 0,
     transform: 0,
@@ -90,7 +93,7 @@ const Sticky: FunctionComponent<StickyProps> = (props) => {
   // container 未指定状态
   const handleStandaloneSituation = () => {
     wx.createSelectorQuery()
-      .select('#van-sticky')
+      .select(`#${id}`)
       .boundingClientRect()
       .exec(([rect]: [BoundingClientRectResult]) => {
         if (rect.top < offsetTop) {
@@ -110,7 +113,7 @@ const Sticky: FunctionComponent<StickyProps> = (props) => {
     const query = wx.createSelectorQuery();
 
     // sticky rect
-    query.select('#van-sticky').boundingClientRect();
+    query.select(`#${id}`).boundingClientRect();
     // container rect, be careful with id property
     query.select(`#${containerId}`).boundingClientRect();
 
@@ -168,7 +171,7 @@ const Sticky: FunctionComponent<StickyProps> = (props) => {
 
   return (
     <View
-      id="van-sticky"
+      id={id}
       style={stylesheets.container}
       className={classnames.container}
     >
