@@ -1,3 +1,20 @@
+# [1.2.0](https://github.com/huang-xiao-jian/remax-vant/compare/v1.1.0...v1.2.0) (2020-07-21)
+
+### Bug Fixes
+
+- 🐛 loose visibility condition ([c70e2f2](https://github.com/huang-xiao-jian/remax-vant/commit/c70e2f28de6ed60970dfd2c49e5248b911488bfe))
+
+### Features
+
+- ✨ implement tabs package ([61fdb9d](https://github.com/huang-xiao-jian/remax-vant/commit/61fdb9d09a5427112d57e3b69c13e08afafa5fcb))
+- **sticky:** ✨ support sticky multiple instance ([ba01213](https://github.com/huang-xiao-jian/remax-vant/commit/ba01213bd4b566155e0f86ca73074b666c27e5f1))
+- ✨ abstract touch behavior ([1cc609b](https://github.com/huang-xiao-jian/remax-vant/commit/1cc609bd2e5f892221bb811af30afc2c2de2ba2f))
+- ✨ implement action-sheet ([#7](https://github.com/huang-xiao-jian/remax-vant/issues/7)) ([f7f4bf5](https://github.com/huang-xiao-jian/remax-vant/commit/f7f4bf50bee88c2aa483846bc34b294fe6c1c57b))
+- ✨ implement dialog ([33e2d77](https://github.com/huang-xiao-jian/remax-vant/commit/33e2d771c10998fbbc0e27208aa456ebc4fcb436))
+- ✨ implement tab child ([a1a482f](https://github.com/huang-xiao-jian/remax-vant/commit/a1a482fd30e08175c532fdc8fb3c77a4b68fb55f))
+- **popup:** ✨ support scale transition ([9bb7bfc](https://github.com/huang-xiao-jian/remax-vant/commit/9bb7bfc94a826f96bf29603152a6f9defd1ea037))
+- ✨ implement swipe-cell ([#8](https://github.com/huang-xiao-jian/remax-vant/issues/8)) ([870895c](https://github.com/huang-xiao-jian/remax-vant/commit/870895c113527871e86fa386c9b311fc6c38ba48))
+
 # [1.1.0](https://github.com/huang-xiao-jian/remax-vant/compare/v1.0.0...v1.1.0) (2020-07-10)
 
 ### Features
