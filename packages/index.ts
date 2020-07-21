@@ -19,11 +19,14 @@ export { default as Slider } from './Slider';
 export { default as Switch } from './Switch';
 
 // 反馈组件
+export { default as ActionSheet } from './ActionSheet';
+export { DialogProvider, Dialog } from './Dialog';
 export { default as DropdownMenu } from './DropdownMenu';
 export { default as Loading } from './Loading';
+export { NotifyProvider, Notify } from './Notify';
 export { default as Overlay } from './Overlay';
-export * from './Notify';
-export * from './Toast';
+export { default as SwipeCell } from './SwipeCell';
+export { ToastProvider, Toast } from './Toast';
 
 // 展示组件
 export { default as Collapse } from './Collapse';
@@ -42,6 +45,7 @@ export { default as Grid } from './Grid';
 export { default as IndexBar } from './IndexBar';
 export { default as Sidebar } from './Sidebar';
 export { default as Navbar } from './Navbar';
+export { default as Tabs } from './Tabs';
 export { default as Tabbar } from './Tabbar';
 
 // 业务组件

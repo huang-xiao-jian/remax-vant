@@ -23,7 +23,7 @@ yarn dev
 
 ```bash
 # 执行构建命令
-$ yarn build
+$ yarn compile
 ```
 
 ## 移植进度
@@ -55,13 +55,13 @@ $ yarn build
 
 ### 反馈组件
 
-- [ ] ActionSheet
-- [ ] Dialog
+- [x] ActionSheet
+- [x] Dialog
 - [x] DropdownMenu
 - [x] Loading
 - [x] Notify - 与原版实现有差异，参见新文档
 - [x] Overlay
-- [ ] SwipeCell
+- [x] SwipeCell
 - [x] Toast - 与原版实现有差异，参见新文档
 
 ### 展示组件
@@ -84,7 +84,7 @@ $ yarn build
 - [x] IndexBar - 暂不支持 `sticky anchor`，后续处理
 - [x] Sidebar
 - [x] Navbar
-- [ ] Tab
+- [x] Tab
 - [x] Tabbar
 
 ### 业务组件
