@@ -19,7 +19,7 @@ interface InfoProps {
 const Info: FunctionComponent<InfoProps> = (props) => {
   const { className, dot, info, style } = props;
   // 原始版本 wx:if 判断条件
-  const oin = (info !== null && info !== '') || dot;
+  const oin = info || dot;
 
   const classnames = {
     container: clsx(className, 'van-info', {
