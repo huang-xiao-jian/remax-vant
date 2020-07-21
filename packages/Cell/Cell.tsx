@@ -1,5 +1,11 @@
 // packages
-import React, { FunctionComponent, ReactNode, CSSProperties } from 'react';
+import React, {
+  FunctionComponent,
+  ReactNode,
+  CSSProperties,
+  ReactElement,
+  isValidElement,
+} from 'react';
 import clsx from 'clsx';
 import { View } from 'remax/wechat';
 // internal
@@ -17,16 +23,18 @@ interface NeutralCellProps {
   isLink: boolean;
   center: boolean;
   size: 'default' | 'large';
+  linkType: 'redirectTo' | 'switchTab' | 'reLaunch' | 'navigateTo';
 }
 
 interface ExogenousCellProps {
   titleWidth?: string;
   // the same name slot
-  title?: string | ReactNode;
-  icon?: string | ReactNode;
-  label?: string | ReactNode;
+  title?: string | ReactElement;
+  icon?: string | ReactElement;
+  label?: string | ReactElement;
   value?: ReactNode;
-  rightIcon?: ReactNode;
+  rightIcon?: ReactElement;
+  url?: string;
   style?: CSSProperties;
   arrowDirection?: 'left' | 'up' | 'down';
   // 改造新增属性
@@ -47,6 +55,7 @@ const DefaultCellProps: NeutralCellProps = {
   center: false,
   isLink: false,
   size: 'default',
+  linkType: 'navigateTo',
 };
 
 const Cell: FunctionComponent<CellProps> = (props) => {
@@ -57,6 +66,8 @@ const Cell: FunctionComponent<CellProps> = (props) => {
     border,
     center,
     isLink,
+    linkType,
+    url,
     clickable,
     hoverClassName,
     title,
@@ -85,10 +96,30 @@ const Cell: FunctionComponent<CellProps> = (props) => {
     }),
   };
 
-  const visibility = {
-    builtinIcon: typeof icon === 'string',
-    label: !!label,
-    value: !!value,
+  const onClickWrap = (event: unknown) => {
+    if (typeof onClick === 'function') {
+      onClick(event);
+    }
+
+    if (typeof url === 'string') {
+      switch (linkType) {
+        case 'navigateTo':
+          wx.navigateTo({ url });
+          break;
+        case 'redirectTo':
+          wx.redirectTo({ url });
+          break;
+        case 'switchTab':
+          wx.switchTab({ url });
+          break;
+        case 'reLaunch':
+          wx.reLaunch({ url });
+          break;
+        default:
+          // eslint-disable-next-line no-console
+          console.warn('invalid link type param');
+      }
+    }
   };
 
   return (
@@ -97,28 +128,31 @@ const Cell: FunctionComponent<CellProps> = (props) => {
       className={classnames.container}
       hoverClassName={classnames.hover}
       hoverStayTime={70}
-      onClick={onClick}
+      onClick={onClickWrap}
     >
       {/* left icon */}
       <Switch>
-        <Case in={visibility.builtinIcon}>
+        <Case in={typeof icon === 'string'}>
           <View className="van-cell__left-icon-wrap">
             <Icon name={icon as string} className="van-cell__left-icon" />
           </View>
         </Case>
-        <Case default>{icon as ReactNode}</Case>
+        <Case in={isValidElement(icon)}>{icon as ReactElement}</Case>
       </Switch>
+
       {/* title */}
       <View className="van-cell__title" style={stylesheets.title}>
         {title}
-        <Select in={visibility.label}>
+        <Select in={!!label}>
           <View className="van-cell__label">{label}</View>
         </Select>
       </View>
+
       {/* value */}
-      <Select in={visibility.value}>
+      <Select in={!!value}>
         <View className="van-cell__value">{value}</View>
       </Select>
+
       {/* right */}
       <Switch>
         <Case in={isLink}>
@@ -129,7 +163,7 @@ const Cell: FunctionComponent<CellProps> = (props) => {
             />
           </View>
         </Case>
-        <Case default>{rightIcon}</Case>
+        <Case in={isValidElement(rightIcon)}>{rightIcon}</Case>
       </Switch>
     </View>
   );
