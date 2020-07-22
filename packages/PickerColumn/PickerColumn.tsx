@@ -1,11 +1,13 @@
 // packages
-import React, { FunctionComponent, CSSProperties } from 'react';
+import React, { FunctionComponent, CSSProperties, useContext } from 'react';
 import clsx from 'clsx';
 import { View } from 'remax/wechat';
 // internal
 import { range } from '../tools/range';
-import './PickerColumn.css';
 import { useTouchLite } from '../tools/use-touch-lite';
+// PickerColumn 必须处于 PickerContext 之下
+import { PickerContext } from '../Picker/Picker.context';
+import './PickerColumn.css';
 
 export interface CandidateOption {
   // 有效负荷
@@ -19,10 +21,6 @@ export interface CandidateOption {
 interface ExogenousPickerColumnProps {
   // 候选项
   options: CandidateOption[];
-  // item 高度
-  itemHeight: number;
-  // 可见 item 数量
-  visibleItemCount: number;
   // 受控组件
   value: string | number;
   // 事件回调
@@ -35,14 +33,8 @@ type PickerColumnProps = ExogenousPickerColumnProps & ShareSkinProps;
 //   1. drop support for candidate disabled option;
 const PickerColumn: FunctionComponent<PickerColumnProps> = (props) => {
   // destruct
-  const {
-    className,
-    visibleItemCount,
-    itemHeight,
-    options,
-    value,
-    onChange,
-  } = props;
+  const { className, options, value, onChange } = props;
+  const { visibleItemCount, itemHeight } = useContext(PickerContext);
 
   // 0, -1 ==> 0
   const currentIndex =
