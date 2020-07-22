@@ -1,81 +1,79 @@
 // packages
-import React, { FunctionComponent, CSSProperties, useReducer } from 'react';
+import React, { FunctionComponent, CSSProperties } from 'react';
 import clsx from 'clsx';
 import { View } from 'remax/wechat';
 // internal
-import {
-  reducer,
-  PickerColumnReducer,
-  PickerColumnStage,
-  PickerColumnActionTypes,
-  range,
-} from './redux';
+import { range } from '../tools/range';
 import './PickerColumn.css';
+import { useTouchLite } from '../tools/use-touch-lite';
 
-export interface CandidatePlayer {
-  // 唯一标识，用于 list item key，默认使用 name
-  key?: string;
+export interface CandidateOption {
+  // 有效负荷
+  value: string | number;
   // view 渲染
-  name: string;
-  // 禁用当选项，理论上应该在传入 CandidatePlayer 之前预处理
+  title: string;
+  // 禁用选项，理论上应该在传入 CandidatePlayer 之前预处理，暂且搁置
   // disabled?: boolean;
 }
 
 interface ExogenousPickerColumnProps {
-  // 容器类名，用以覆盖内部
-  className?: string;
-  itemHeight: number;
-  visibleItemCount: number;
   // 候选项
-  candidates: CandidatePlayer[];
-  activeIndex: number;
-  onChange: (index: number) => void;
+  options: CandidateOption[];
+  // item 高度
+  itemHeight: number;
+  // 可见 item 数量
+  visibleItemCount: number;
+  // 受控组件
+  value: string | number;
+  // 事件回调
+  onChange: (value: string | number) => void;
 }
 
-type PickerColumnProps = ExogenousPickerColumnProps;
+type PickerColumnProps = ExogenousPickerColumnProps & ShareSkinProps;
 
 // CHANGES:
 //   1. drop support for candidate disabled option;
 const PickerColumn: FunctionComponent<PickerColumnProps> = (props) => {
   // destruct
   const {
-    activeIndex,
     className,
     visibleItemCount,
     itemHeight,
-    candidates,
+    options,
+    value,
     onChange,
   } = props;
 
-  // 内部状态管理
-  const [state, dispatch] = useReducer<PickerColumnReducer>(reducer, {
-    stage: PickerColumnStage.SILENT,
-    duration: 200,
-  });
-
-  // derivation
-  // 初始状态向下偏移，用户体验考量
+  // 0, -1 ==> 0
+  const currentIndex =
+    options.findIndex((option) => option.value === value) || 0;
+  // 初始状态向下偏移，用户体验考量，作为偏移基准
   const base = (itemHeight * (visibleItemCount - 1)) / 2;
-  const offset = -activeIndex * itemHeight;
-  const translateY =
-    state.stage === PickerColumnStage.SILENT
-      ? offset + base
-      : (state.offset as number) + base;
+  // 边界值保留 1 个选项
+  const minimumOffset = -(options.length - 1) * itemHeight;
+  const maximumOffset = (visibleItemCount - 1) * itemHeight;
+  // 当前选项偏移
+  const offset = -currentIndex * itemHeight;
+  // 复用滑动 hook
+  const { disc, onTouchStart, onTouchMove, onTouchEnd } = useTouchLite();
+
+  // touch 滑动状态额外添加 deltaY
+  const realTranslateY = disc.dragging
+    ? offset + base + disc.deltaY
+    : offset + base;
+  const translateY = range(realTranslateY, minimumOffset, maximumOffset);
+  const transitionDuration = disc.dragging ? 0 : 200;
 
   // UI bindings
   const classnames = {
     container: clsx(className, 'van-picker-column'),
-    item: (index: number) =>
-      clsx('van-ellipsis', 'van-picker-column__item', {
-        'van-picker-column__item--selected': index === activeIndex,
-      }),
   };
   const stylesheets: Record<string, CSSProperties> = {
     container: {
       height: `${visibleItemCount * itemHeight}px`,
     },
     wrap: {
-      transition: `transform ${state.duration}ms`,
+      transition: `transform ${transitionDuration}ms`,
       transform: `translate3d(0, ${translateY}px, 0)`,
     },
     item: {
@@ -84,50 +82,17 @@ const PickerColumn: FunctionComponent<PickerColumnProps> = (props) => {
     },
   };
 
-  // 初始状态重置
-  const onTouchStart = (event: any) => {
-    dispatch({
-      type: PickerColumnActionTypes.TOUCH_START,
-      payload: {
-        startY: event.touches[0].clientY,
-        startOffset: offset,
-      },
-    });
-  };
+  const onTouchEndWrap = (event: TouchEventMini) => {
+    // 原始调用
+    onTouchEnd(event);
 
-  const onTouchMove = (event: any) => {
-    dispatch({
-      type: PickerColumnActionTypes.TOUCH_MOVE,
-      payload: { clientY: event.touches[0].clientY },
-      extra: {
-        itemHeight,
-        count: candidates.length,
-      },
-    });
-  };
+    // 计算偏移索引
+    // const position = offset + base + ;
+    const offsetIndex = Math.round(-disc.deltaY / itemHeight);
+    const nextIndex = range(currentIndex + offsetIndex, 0, options.length - 1);
 
-  const onTouchEnd = () => {
-    dispatch({
-      type: PickerColumnActionTypes.TOUCH_END,
-    });
-
-    const nextIndex = range(
-      Math.round(Math.abs(state.offset as number) / itemHeight),
-      0,
-      candidates.length - 1
-    );
-
-    onChange(nextIndex);
-  };
-
-  // 沿用原版委托模式
-  const onClickCandidate = (event: any) => {
-    const currentIndex = event.target.dataset.index;
-
-    // only trigger event when index mismatch
-    if (currentIndex !== activeIndex) {
-      onChange(currentIndex);
-    }
+    // index 已确认不会越界，此处不进行额外判定
+    onChange(options[nextIndex].value);
   };
 
   return (
@@ -136,20 +101,33 @@ const PickerColumn: FunctionComponent<PickerColumnProps> = (props) => {
       className={classnames.container}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
+      onTouchEnd={onTouchEndWrap}
     >
       <View style={stylesheets.wrap}>
-        {candidates.map((candidate, index) => (
-          <View
-            data-index={index}
-            key={candidate.key || candidate.name}
-            style={stylesheets.item}
-            className={classnames.item(index)}
-            onClick={onClickCandidate}
-          >
-            {candidate.name}
-          </View>
-        ))}
+        {options.map((option) => {
+          const classNameOption = clsx(
+            'van-ellipsis',
+            'van-picker-column__item',
+            {
+              'van-picker-column__item--selected': value === option.value,
+            }
+          );
+
+          const onClickCandidate = () => {
+            onChange(option.value);
+          };
+
+          return (
+            <View
+              key={option.value}
+              style={stylesheets.item}
+              className={classNameOption}
+              onClick={onClickCandidate}
+            >
+              {option.title}
+            </View>
+          );
+        })}
       </View>
     </View>
   );
