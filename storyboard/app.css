@@ -6,6 +6,7 @@ page {
 
 .demo-block {
   width: 100%;
+  min-height: 200vh;
 }
 
 .demo-block__title {

@@ -1,3 +1,4 @@
+// non-ts assets
 declare module '*.png';
 declare module '*.css';
 
@@ -25,4 +26,11 @@ declare interface TouchPointMini {
 
 declare interface TouchEventMini {
   touches: TouchPointMini[];
+}
+
+declare interface ShareSkinProps {
+  // 内嵌样式，覆盖内部
+  style?: React.CSSProperties;
+  // 容器类名，用以覆盖内部
+  className?: string;
 }
