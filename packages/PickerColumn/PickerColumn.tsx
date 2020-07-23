@@ -1,5 +1,10 @@
 // packages
-import React, { FunctionComponent, CSSProperties, useContext } from 'react';
+import React, {
+  FunctionComponent,
+  CSSProperties,
+  useContext,
+  useCallback,
+} from 'react';
 import clsx from 'clsx';
 import { View } from 'remax/wechat';
 // internal
@@ -7,27 +12,8 @@ import { range } from '../tools/range';
 import { useTouchLite } from '../tools/use-touch-lite';
 // PickerColumn 必须处于 PickerContext 之下
 import { PickerContext } from '../Picker/Picker.context';
+import { PickerColumnProps } from './PickerColumn.interface';
 import './PickerColumn.css';
-
-export interface CandidateOption {
-  // 有效负荷
-  value: string | number;
-  // view 渲染
-  title: string;
-  // 禁用选项，理论上应该在传入 CandidatePlayer 之前预处理，暂且搁置
-  // disabled?: boolean;
-}
-
-interface ExogenousPickerColumnProps {
-  // 候选项
-  options: CandidateOption[];
-  // 受控组件
-  value: string | number;
-  // 事件回调
-  onChange: (value: string | number) => void;
-}
-
-type PickerColumnProps = ExogenousPickerColumnProps & ShareSkinProps;
 
 // CHANGES:
 //   1. drop support for candidate disabled option;
@@ -41,9 +27,9 @@ const PickerColumn: FunctionComponent<PickerColumnProps> = (props) => {
     options.findIndex((option) => option.value === value) || 0;
   // 初始状态向下偏移，用户体验考量，作为偏移基准
   const base = (itemHeight * (visibleItemCount - 1)) / 2;
-  // 边界值保留 1 个选项
-  const minimumOffset = -(options.length - 1) * itemHeight;
-  const maximumOffset = (visibleItemCount - 1) * itemHeight;
+  // 边界值保留 2 个选项
+  const minimumOffset = -(options.length - 2) * itemHeight;
+  const maximumOffset = (visibleItemCount - 2) * itemHeight;
   // 当前选项偏移
   const offset = -currentIndex * itemHeight;
   // 复用滑动 hook
@@ -86,40 +72,45 @@ const PickerColumn: FunctionComponent<PickerColumnProps> = (props) => {
     // index 已确认不会越界，此处不进行额外判定
     onChange(options[nextIndex].value);
   };
+  // 阻止冒泡，remax stopPropagation 未生效
+  const noop = useCallback(() => {}, []);
 
   return (
-    <View
-      style={stylesheets.container}
-      className={classnames.container}
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEndWrap}
-    >
-      <View style={stylesheets.wrap}>
-        {options.map((option) => {
-          const classNameOption = clsx(
-            'van-ellipsis',
-            'van-picker-column__item',
-            {
-              'van-picker-column__item--selected': value === option.value,
-            }
-          );
+    /* @ts-ignore */
+    <View catchTouchMove={noop}>
+      <View
+        style={stylesheets.container}
+        className={classnames.container}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEndWrap}
+      >
+        <View style={stylesheets.wrap}>
+          {options.map((option) => {
+            const classNameOption = clsx(
+              'van-ellipsis',
+              'van-picker-column__item',
+              {
+                'van-picker-column__item--selected': value === option.value,
+              }
+            );
 
-          const onClickCandidate = () => {
-            onChange(option.value);
-          };
+            const onClickCandidate = () => {
+              onChange(option.value);
+            };
 
-          return (
-            <View
-              key={option.value}
-              style={stylesheets.item}
-              className={classNameOption}
-              onClick={onClickCandidate}
-            >
-              {option.title}
-            </View>
-          );
-        })}
+            return (
+              <View
+                key={option.value}
+                style={stylesheets.item}
+                className={classNameOption}
+                onClick={onClickCandidate}
+              >
+                {option.title}
+              </View>
+            );
+          })}
+        </View>
       </View>
     </View>
   );

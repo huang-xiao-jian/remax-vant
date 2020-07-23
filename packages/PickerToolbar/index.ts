@@ -2,4 +2,4 @@
  * @description - nothing but export component
  */
 
-export { default } from './Picker';
+export { default } from './PickerToolbar';

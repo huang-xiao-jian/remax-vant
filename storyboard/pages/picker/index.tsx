@@ -5,7 +5,8 @@ import { View, Text } from 'remax/wechat';
 
 // internal
 import Picker from '../../../packages/Picker';
-import PickerColumn, { CandidateOption } from '../../../packages/PickerColumn';
+import PickerColumn from '../../../packages/PickerColumn';
+import { CandidateOption } from '../../../packages/PickerColumn/PickerColumn.interface';
 
 export default () => {
   const cities: CandidateOption[] = [

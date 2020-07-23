@@ -9,37 +9,18 @@ import clsx from 'clsx';
 import { View } from 'remax/wechat';
 // internal
 import Loading from '../Loading';
-import PickerToolbar from './PickerToolbar';
 import { Select } from '../tools/Switch';
 import { isGeneticChild } from '../tools/is';
 import withDefaultProps from '../tools/with-default-props-advance';
 import PickerColumn from '../PickerColumn';
+import PickerToolbar from '../PickerToolbar';
 import { PickerContextPayload, PickerContext } from './Picker.context';
+import {
+  NeutralPickerProps,
+  ExogenousPickerProps,
+  PickerProps,
+} from './Picker.interface';
 import './Picker.css';
-
-// 默认值填充属性
-interface NeutralPickerProps {
-  loading: boolean;
-  showToolbar: boolean;
-  toolbarPosition: 'top' | 'bottom';
-  // PickerToolbar 配置参数
-  title: string;
-  confirmButtonText: string;
-  cancelButtonText: string;
-  // PickerColumn 配置参数
-  itemHeight: number;
-  visibleItemCount: number;
-}
-
-interface ExogenousPickerProps {
-  // 容器类名，用以覆盖内部
-  className?: string;
-  // 事件绑定
-  onCancel?: () => void;
-  onConfirm?: () => void;
-}
-
-type PickerProps = NeutralPickerProps & ExogenousPickerProps;
 
 const DefaultPickerProps: NeutralPickerProps = {
   showToolbar: false,
