@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "clsx": "^1.1.0",
+    "date-fns": "^2.15.0",
     "lodash.pickby": "^4.6.0"
   },
   "devDependencies": {
@@ -62,7 +63,7 @@
   },
   "peerDependencies": {
     "react": "^16.13.1",
-    "remax": "^2.6.0"
+    "remax": "^2.7.3"
   },
   "husky": {
     "hooks": {
