@@ -10,9 +10,7 @@ import { View } from 'remax/wechat';
 // internal
 import Loading from '../Loading';
 import { Select } from '../tools/Switch';
-import { isGeneticChild } from '../tools/is';
 import withDefaultProps from '../tools/with-default-props-advance';
-import PickerColumn from '../PickerColumn';
 import PickerToolbar from '../PickerToolbar';
 import { PickerContextPayload, PickerContext } from './Picker.context';
 import {
@@ -91,16 +89,11 @@ const Picker: FunctionComponent<PickerProps> = (props) => {
 
       <View className="van-picker__columns" style={stylesheets.columns}>
         {/* Picker 不进行任何状态管理职责 */}
-        {/* eslint-disable-next-line consistent-return */}
-        {Children.map(children, (child) => {
-          if (isGeneticChild(child, PickerColumn)) {
-            return (
-              <PickerContext.Provider value={payload}>
-                <View className="van-picker__column">{child}</View>
-              </PickerContext.Provider>
-            );
-          }
-        })}
+        {Children.map(children, (child) => (
+          <PickerContext.Provider value={payload}>
+            <View className="van-picker__column">{child}</View>
+          </PickerContext.Provider>
+        ))}
         {/* 背景 repeat 制作非选中项目遮罩效果，干的漂亮 */}
         <View className="van-picker__mask" style={stylesheets.mask} />
         {/* 选择框线 frame */}
