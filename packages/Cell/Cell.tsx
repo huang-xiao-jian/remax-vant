@@ -1,7 +1,6 @@
 // packages
 import React, {
   FunctionComponent,
-  ReactNode,
   CSSProperties,
   ReactElement,
   isValidElement,
@@ -13,39 +12,12 @@ import Icon from '../Icon';
 import { Select, Switch, Case } from '../tools/Switch';
 import withDefaultProps from '../tools/with-default-props-advance';
 import pickStyle from '../tools/pick-style';
+import {
+  ExogenousCellProps,
+  NeutralCellProps,
+  CellProps,
+} from './Cell.interface';
 import './Cell.css';
-
-// 默认值填充属性
-interface NeutralCellProps {
-  required: boolean;
-  border: boolean;
-  clickable: boolean;
-  isLink: boolean;
-  center: boolean;
-  size: 'default' | 'large';
-  linkType: 'redirectTo' | 'switchTab' | 'reLaunch' | 'navigateTo';
-}
-
-interface ExogenousCellProps {
-  titleWidth?: string;
-  // the same name slot
-  title?: string | ReactElement;
-  icon?: string | ReactElement;
-  label?: string | ReactElement;
-  value?: ReactNode;
-  rightIcon?: ReactElement;
-  url?: string;
-  style?: CSSProperties;
-  arrowDirection?: 'left' | 'up' | 'down';
-  // 改造新增属性
-  hoverClassName?: string;
-  // 容器类名，用以覆盖内部
-  className?: string;
-  // 事件绑定
-  onClick?: (event: any) => void;
-}
-
-type CellProps = NeutralCellProps & ExogenousCellProps;
 
 // scope
 const DefaultCellProps: NeutralCellProps = {
@@ -76,6 +48,7 @@ const Cell: FunctionComponent<CellProps> = (props) => {
     value,
     icon,
     style,
+    children,
     rightIcon,
     arrowDirection,
   } = props;
@@ -148,10 +121,8 @@ const Cell: FunctionComponent<CellProps> = (props) => {
         </Select>
       </View>
 
-      {/* value */}
-      <Select in={!!value}>
-        <View className="van-cell__value">{value}</View>
-      </Select>
+      {/* core */}
+      <View className="van-cell__value">{value || children}</View>
 
       {/* right */}
       <Switch>
@@ -161,6 +132,11 @@ const Cell: FunctionComponent<CellProps> = (props) => {
               className="van-cell__right-icon"
               name={arrowDirection ? `arrow-${arrowDirection}` : 'arrow'}
             />
+          </View>
+        </Case>
+        <Case in={typeof rightIcon === 'string'}>
+          <View className="van-cell__right-icon-wrap">
+            <Icon className="van-cell__right-icon" name={rightIcon as string} />
           </View>
         </Case>
         <Case in={isValidElement(rightIcon)}>{rightIcon}</Case>
