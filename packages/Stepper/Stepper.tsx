@@ -6,35 +6,12 @@ import { View, Input } from 'remax/wechat';
 import { Select } from '../tools/Switch';
 import pickStyle from '../tools/pick-style';
 import withDefaultProps from '../tools/with-default-props-advance';
+import {
+  NeutralStepperProps,
+  ExogenousStepperProps,
+  StepperProps,
+} from './Stepper.interface';
 import './Stepper.css';
-
-// 默认值填充属性
-interface NeutralStepperProps {
-  min: number;
-  max: number;
-  step: number;
-  integer: boolean;
-  disabled: boolean;
-  inputWith: string;
-  disableInput: boolean;
-  buttonSize: string;
-  showPlus: boolean;
-  disabledPlus: boolean;
-  showMinus: boolean;
-  disableMinus: boolean;
-  decimalLength: number;
-  longPress: boolean;
-}
-
-interface ExogenousStepperProps {
-  // 受控组件
-  value: number;
-  // 容器类名，用以覆盖内部
-  className?: string;
-  onChange?: (value: number) => void;
-}
-
-type StepperProps = NeutralStepperProps & ExogenousStepperProps;
 
 const DefaultStepperProps: NeutralStepperProps = {
   min: 1,
@@ -107,9 +84,18 @@ const Stepper: FunctionComponent<StepperProps> = (props) => {
   };
 
   // 事件绑定
-  const onClickFactory = (operation: 'minus' | 'plus') => () => {
-    const diff = operation === 'minus' ? -step : step;
-    const raw = add(value, diff);
+  const onClickPlus = () => {
+    const raw = add(value, step);
+    // 处理越界
+    const next = Math.max(Math.min(max, raw), min);
+
+    if (typeof onChange === 'function') {
+      onChange(next);
+    }
+  };
+
+  const onClickMinus = () => {
+    const raw = add(value, -step);
     // 处理越界
     const next = Math.max(Math.min(max, raw), min);
 
@@ -126,7 +112,7 @@ const Stepper: FunctionComponent<StepperProps> = (props) => {
           hoverStayTime={70}
           style={stylesheets.button}
           className={classnames.minus}
-          onClick={onClickFactory('minus')}
+          onClick={onClickMinus}
         />
       </Select>
       <Input
@@ -142,7 +128,7 @@ const Stepper: FunctionComponent<StepperProps> = (props) => {
           hoverStayTime={70}
           style={stylesheets.button}
           className={classnames.plus}
-          onClick={onClickFactory('plus')}
+          onClick={onClickPlus}
         />
       </Select>
     </View>
