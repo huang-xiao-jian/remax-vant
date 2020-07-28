@@ -42,14 +42,14 @@ $ yarn compile
 
 - [ ] Calendar
 - [x] Checkbox
-- [ ] DatetimePicker
-- [ ] Field
+- [x] DatetimePicker
+- [x] Field
 - [x] Picker - 与原版差异巨大，尚未确认是否影响依赖组件使用
 - [x] Radio
 - [x] Rate
 - [ ] Search
 - [x] Slider
-- [ ] Stepper
+- [x] Stepper - 功能实现残缺，不可输入
 - [x] Switch
 - [ ] Uploader
 

@@ -13,9 +13,12 @@ export { default as Transition } from './Transition';
 // 表单组件
 export { default as Checkbox } from './Checkbox';
 export { default as Picker } from './Picker';
+export { TimePicker, DatePicker } from './DatetimePicker';
+export { default as Field } from './Field';
 export { default as Radio } from './Radio';
 export { default as Rate } from './Rate';
 export { default as Slider } from './Slider';
+export { default as Stepper } from './Stepper';
 export { default as Switch } from './Switch';
 
 // 反馈组件
