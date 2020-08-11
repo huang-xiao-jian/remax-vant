@@ -17,3 +17,7 @@ export interface ExogenousPickerColumnProps {
 }
 
 export type PickerColumnProps = ExogenousPickerColumnProps & ShareSkinProps;
+
+export interface PickerColumnNativeEvent {
+  detail: { value: string };
+}

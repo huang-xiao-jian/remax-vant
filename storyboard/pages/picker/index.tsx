@@ -32,12 +32,12 @@ export default () => {
     { title: '周日', value: 'Sunday' },
   ];
 
+  const [day, setDay] = useState('Monday');
   const [city, setCity] = useState('HZ');
-  const [day, setDay] = useState('Tuesday');
 
   const onConfirm = () => {
     wx.showToast({
-      title: 'Picker Confirmed',
+      title: `${city} - ${day}`,
     });
   };
 

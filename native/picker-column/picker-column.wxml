@@ -1,0 +1,22 @@
+<view
+  class="van-picker-column"
+  style="height: {{itemHeight * visibleItemCount}}px"
+  bind:touchstart="onTouchStart"
+  catch:touchmove="onTouchMove"
+  bind:touchend="onTouchEnd"
+  bind:touchcancel="onTouchEnd"
+>
+  <view style="line-height: {{ itemHeight }}px; transition: transform {{ duration }}ms; transform: translate3d(0, {{ offset + baseline}}px, 0)">
+    <view
+      wx:for="{{options}}"
+      wx:key="value"
+      wx:for-item="option"
+      style="height: {{itemHeight}}px"
+      class="van-ellipsis van-picker-column__item {{ value === option.value ? 'van-picker-column__item--selected' : ''}}"
+      data-value="{{option.value}}"
+      bindtap="onTap"
+    >
+      {{option.title}}
+    </view>
+  </view>
+</view>

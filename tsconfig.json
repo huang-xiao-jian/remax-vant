@@ -11,5 +11,10 @@
     "paths": {},
     "lib": ["DOM", "ES2015"]
   },
-  "include": ["typings/**/*", "packages/**/*", "storyboard/**/*"]
+  "include": [
+    "typings/**/*",
+    "packages/**/*",
+    "storyboard/**/*",
+    "native/**/*.ts"
+  ]
 }
