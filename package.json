@@ -58,7 +58,7 @@
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
     "remax-vant-cli": "^0.8.0",
-    "semantic-release": "^17.1.1",
+    "semantic-release": "^19.0.3",
     "typescript": "^3.7.3"
   },
   "peerDependencies": {
